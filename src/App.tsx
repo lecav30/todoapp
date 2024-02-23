@@ -1,10 +1,11 @@
+import MainView from "@views/MainView";
 import "./App.css";
 
 function App() {
   return (
-    <>
-      <div>Todoapp</div>
-    </>
+    <div className="h-screen">
+      <MainView />
+    </div>
   );
 }
 

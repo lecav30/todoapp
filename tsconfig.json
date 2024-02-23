@@ -2,10 +2,16 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable",
+    ],
+    "types": [
+      "node",
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
-
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -13,13 +19,57 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@assets/*": [
+        "src/assets/*"
+      ],
+      "@views/*": [
+        "src/views/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@models/*": [
+        "src/models/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ],
+      "@server/*": [
+        "src/server/*"
+      ],
+      "@core/*": [
+        "src/core/*"
+      ],
+      "@redux/*": [
+        "src/redux/*"
+      ],
+      "@services/*": [
+        "src/services/*"
+      ],
+      "@scripts/*": [
+        "src/scripts/*"
+      ],
+      "@hooks/*": [
+        "src/hooks/*"
+      ],
+      "@context/*": [
+        "src/context/*"
+      ]
+    }
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": [
+    "src"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }

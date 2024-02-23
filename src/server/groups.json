@@ -1,0 +1,48 @@
+[
+  {
+    "id": 1,
+    "name": "First Group",
+    "description": "First group description",
+    "tasks": [
+      {
+        "id": 1,
+        "group_id": 1,
+        "name": "First Task",
+        "description": "First task description",
+        "isCompleted": true,
+        "deadline": "2024-03-20T12:00:00.999Z"
+      },
+      {
+        "id": 2,
+        "group_id": 1,
+        "name": "Second Task",
+        "description": "Second task description",
+        "isCompleted": false,
+        "deadline": "2024-03-20T12:00:00.999Z"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Second Group",
+    "description": "Second group description",
+    "tasks": [
+      {
+        "id": 3,
+        "group_id": 2,
+        "name": "Third Task",
+        "description": "Third task description",
+        "isCompleted": true,
+        "deadline": "2024-03-20T12:00:00.999Z"
+      },
+      {
+        "id": 4,
+        "group_id": 2,
+        "name": "Fourth Task",
+        "description": "Fourth task description",
+        "isCompleted": false,
+        "deadline": "2024-03-20T12:00:00.999Z"
+      }
+    ]
+  }
+]
