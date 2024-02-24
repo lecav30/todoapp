@@ -50,6 +50,9 @@
       "@redux/*": [
         "src/redux/*"
       ],
+      "@feature/*": [
+        "src/feature/*"
+      ],
       "@services/*": [
         "src/services/*"
       ],

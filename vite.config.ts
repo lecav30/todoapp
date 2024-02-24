@@ -15,6 +15,7 @@ export default defineConfig({
       "@server": path.resolve(__dirname, "./src/server"),
       "@core": path.resolve(__dirname, "./src/core"),
       "@redux": path.resolve(__dirname, "./src/redux"),
+      "@feature": path.resolve(__dirname, "./src/feature"),
       "@services": path.resolve(__dirname, "./src/services"),
       "@scripts": path.resolve(__dirname, "./src/scripts"),
       "@hooks": path.resolve(__dirname, "./src/hooks"),
