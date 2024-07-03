@@ -20,9 +20,6 @@ const Task: FC<TaskProps> = (props) => {
     >
       <Checkbox completed={completed} />
       <b className={`${completed && "line-through"}`}>{props.task.name}</b>
-      <div className="hidden">
-        <p>{props.task.description}</p>
-      </div>
     </div>
   );
 };

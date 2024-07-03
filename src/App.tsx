@@ -1,3 +1,4 @@
+import Sidebar from "@components/Sidebar";
 import MainView from "@views/MainView";
 import Navbar from "@components/Navbar";
 import "./App.css";
@@ -11,6 +12,7 @@ function App() {
 
   return (
     <div className={`${activeSidebar && "ml-80"} h-screen`}>
+      <Sidebar />
       <Navbar />
       <MainView />
     </div>

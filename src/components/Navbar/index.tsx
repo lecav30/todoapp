@@ -1,4 +1,3 @@
-import Sidebar from "@components/Sidebar";
 import SidebarOnIcon from "@assets/svg_components/SidebarOn";
 import SidebarOffIcon from "@assets/svg_components/SidebarOff";
 import AccountIcon from "@assets/svg_components/Account";
@@ -19,7 +18,6 @@ const Navbar = () => {
 
   return (
     <nav className="flex justify-between py-5 px-10">
-      <Sidebar />
       <button onClick={handleSidebar}>
         {activeSidebar ? (
           <SidebarOnIcon width="20" height="20" fill="#f1f1f1" />
