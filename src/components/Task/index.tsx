@@ -1,16 +1,18 @@
 import Checkbox from "@components/Checkbox";
 import { ITask } from "@models/Task";
-import { FC, useState } from "react";
+import { FC } from "react";
+import { useDispatch } from "react-redux";
+import { completeTask } from "@feature/data/dataSlice";
 
 interface TaskProps {
   task: ITask;
 }
 
 const Task: FC<TaskProps> = (props) => {
-  const [completed, setCompleted] = useState(props.task.isCompleted);
+  const dispatch = useDispatch();
 
   const handleTaskComplete = () => {
-    setCompleted(!completed);
+    dispatch(completeTask(props.task));
   };
 
   return (
@@ -18,8 +20,10 @@ const Task: FC<TaskProps> = (props) => {
       className="flex items-center gap-3 px-2 py-1 border-[1px] rounded-lg"
       onClick={handleTaskComplete}
     >
-      <Checkbox completed={completed} />
-      <b className={`${completed && "line-through"}`}>{props.task.name}</b>
+      <Checkbox completed={props.task.isCompleted} />
+      <b className={`${props.task.isCompleted && "line-through"}`}>
+        {props.task.name}
+      </b>
     </div>
   );
 };

@@ -28,7 +28,7 @@ export const MainView = () => {
         {data.projects[currentProject.id].groups.map((group: IGroup) => (
           <Group key={group.id} group={group} />
         ))}
-        <button onClick={addNewGroup} className="self-start">
+        <button onClick={addNewGroup} className="self-start mt-3">
           <PlusIcon />
         </button>
       </div>

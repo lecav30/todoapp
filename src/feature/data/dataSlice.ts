@@ -1,7 +1,7 @@
 import { IData } from '@models/Data';
 import { IProject, IProjectRequest } from '@models/Project';
 import { IGroupRequest } from '@models/Group';
-import { ITaskRequest } from '@models/Task';
+import { ITask, ITaskRequest } from '@models/Task';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import data from '@server/data.json';
 
@@ -89,10 +89,39 @@ export const dataSlice = createSlice({
                 console.error(err);
             }
         },
+        completeTask: (state, action: PayloadAction<ITask>) => {
+            try {
+                // Find the project by ID
+                const project = state.data.projects.find(
+                    (p) => p.id === state.currentProject.id,
+                );
+                if (!project) {
+                    throw new Error('Project not found');
+                }
+                // Find the group within the project by group_id
+                const group = project.groups.find(
+                    (g) => g.id === action.payload.group_id,
+                );
+                if (!group) {
+                    throw new Error('Group not found');
+                }
+                // Find the task within the group by task_id
+                const task = group.tasks.find(
+                    (t) => t.id === action.payload.id,
+                );
+                if (!task) {
+                    throw new Error('Task not found');
+                }
+                // Toggle the task's isCompleted property
+                task.isCompleted = !task.isCompleted;
+            } catch (err) {
+                console.error(err);
+            }
+        },
     },
 });
 
-export const { changeProject, addProject, addGroup, addTask } =
+export const { changeProject, addProject, addGroup, addTask, completeTask } =
     dataSlice.actions;
 
 export default dataSlice.reducer;
