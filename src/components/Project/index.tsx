@@ -21,7 +21,7 @@ const Project: FC<IProjectProps> = (props) => {
   const dispatch = useDispatch();
 
   const currentProject = useSelector(
-    (state: RootState) => state.data.currentProject,
+    (state: RootState) => state.data.currentProject
   );
 
   const [hovered, bind] = useHover();
@@ -39,7 +39,7 @@ const Project: FC<IProjectProps> = (props) => {
           setIsOpen={setIsOpen}
           onSubmit={(values) => {
             dispatch(
-              editProject(values as Record<string, unknown> & IProjectRequest),
+              editProject(values as Record<string, unknown> & IProjectRequest)
             );
           }}
           initialValues={
@@ -77,68 +77,66 @@ const Project: FC<IProjectProps> = (props) => {
     <div
       className={`flex items-center justify-between px-3 py-1 mb-6 min-w-52
       hover:bg-gray-500/20 hover:rounded-lg
-      ${currentProject.id === props.project.id && "border-b"}`}
+      ${currentProject!.id === props.project.id && "border-b"}`}
       {...bind}
     >
       <p
-        className={`${hovered && "font-medium"} text-xl py-2 cursor-pointer truncate w-[80%]`}
+        className={`${
+          hovered && "font-medium"
+        } text-xl py-2 cursor-pointer truncate w-[80%]`}
         onClick={() => dispatch(changeProject(props.project))}
       >
         {props.project.name}
       </p>
       <Popover className="relative flex">
-        {({ open }) => (
-          <>
-            <Popover.Button
-              className={`${!hovered ? "hidden opacity-0" : "opacity-100"}
-               focus:outline-none items-center`}
+        <Popover.Button
+          className={`${!hovered ? "hidden opacity-0" : "opacity-100"}
+          focus:outline-none items-center`}
+        >
+          <Ellipsis />
+        </Popover.Button>
+        <Transition
+          as={Fragment}
+          enter="transition ease-out duration-200"
+          enterFrom="opacity-0 translate-y-1"
+          enterTo="opacity-100 translate-y-0"
+          leave="transition ease-in duration-150"
+          leaveFrom="opacity-100 translate-y-0"
+          leaveTo="opacity-0 translate-y-1"
+        >
+          <Popover.Panel
+            className="absolute left-6 top-6 bg-primary flex flex-col
+            border-white border rounded-[6px] text-sm"
+          >
+            <button
+              className="hover:bg-gray-500/50 w-full py-2 px-6"
+              onClick={() => {
+                setOptionSelected("Edit");
+                setIsOpen(true);
+              }}
             >
-              <Ellipsis />
-            </Popover.Button>
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-200"
-              enterFrom="opacity-0 translate-y-1"
-              enterTo="opacity-100 translate-y-0"
-              leave="transition ease-in duration-150"
-              leaveFrom="opacity-100 translate-y-0"
-              leaveTo="opacity-0 translate-y-1"
+              Edit
+            </button>
+            <button
+              className="hover:bg-gray-500/50 w-full py-2 px-6"
+              onClick={() => {
+                setOptionSelected("About");
+                setIsOpen(true);
+              }}
             >
-              <Popover.Panel
-                className="absolute left-6 top-6 bg-primary flex flex-col
-                border-white border rounded-[6px] text-sm"
-              >
-                <button
-                  className="hover:bg-gray-500/50 w-full py-2 px-6"
-                  onClick={() => {
-                    setOptionSelected("Edit");
-                    setIsOpen(true);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="hover:bg-gray-500/50 w-full py-2 px-6"
-                  onClick={() => {
-                    setOptionSelected("About");
-                    setIsOpen(true);
-                  }}
-                >
-                  About
-                </button>
-                <button
-                  className="hover:bg-gray-500/50 w-full py-2 px-6"
-                  onClick={() => {
-                    setOptionSelected("Delete");
-                    dispatch(deleteProject(props.project.id));
-                  }}
-                >
-                  Delete
-                </button>
-              </Popover.Panel>
-            </Transition>
-          </>
-        )}
+              About
+            </button>
+            <button
+              className="hover:bg-gray-500/50 w-full py-2 px-6"
+              onClick={() => {
+                setOptionSelected("Delete");
+                dispatch(deleteProject(props.project.id));
+              }}
+            >
+              Delete
+            </button>
+          </Popover.Panel>
+        </Transition>
       </Popover>
       <TodoDialog
         title={optionSelected}

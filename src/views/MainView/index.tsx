@@ -5,7 +5,7 @@ import { addGroup } from "@feature/data/dataSlice";
 import { IGroup, IGroupRequest } from "@models/Group";
 import { RootState } from "@redux/store";
 import { PlusIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export const MainView = () => {
@@ -18,15 +18,26 @@ export const MainView = () => {
   );
   const data = useSelector((state: RootState) => state.data.data);
 
+  const [groups, setGroups] = useState<IGroup[]>([]);
+
+  useEffect(() => {
+    // If there is no current project, set groups to an empty array
+    if (!currentProject) setGroups([]);
+    // Find the current project and set its groups
+    const project = data.projects.find((p) => p.id === currentProject!.id);
+    // If there is no project, return
+    if (!project) return;
+    setGroups(project.groups);
+  }, [currentProject, data.projects]);
+  // Update the groups when the current project changes (deleted) or
+  // the projects change (a new project is added and the projects array is empty)
+
   return (
     <div className="h-[calc(100%-60px)] flex flex-col justify-center items-center">
       <div className="flex gap-10">
-        {currentProject &&
-          data.projects[currentProject.id] &&
-          Array.isArray(data.projects[currentProject.id].groups) &&
-          data.projects[currentProject.id].groups.map((group: IGroup) => (
-            <Group key={group.id} group={group} />
-          ))}
+        {groups.map((group: IGroup) => (
+          <Group key={group.id} group={group} />
+        ))}
         <button onClick={() => setIsOpen(true)} className="self-start mt-3">
           <PlusIcon />
         </button>

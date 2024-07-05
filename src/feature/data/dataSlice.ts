@@ -37,6 +37,8 @@ export const dataSlice = createSlice({
                 ...action.payload,
                 groups: [],
             });
+            if (state.data.projects.length === 1)
+                state.currentProject = state.data.projects[0];
         },
         editProject: (state, action: PayloadAction<IProjectRequest>) => {
             if (!state.currentProject) return;
