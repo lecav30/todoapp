@@ -1,8 +1,11 @@
+import TodoDialog from "@components/Dialog";
+import GenericForm from "@components/GenericForm";
 import Task from "@components/Task";
-import { IGroup } from "@models/Group";
-import { FC } from "react";
-import { PlusIcon } from "lucide-react";
 import { addTask } from "@feature/data/dataSlice";
+import { IGroup } from "@models/Group";
+import { ITaskRequest } from "@models/Task";
+import { PlusIcon } from "lucide-react";
+import { FC, useState } from "react";
 import { useDispatch } from "react-redux";
 
 interface GroupProps {
@@ -10,18 +13,9 @@ interface GroupProps {
 }
 
 const Group: FC<GroupProps> = (props) => {
-  const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const addNewTask = () => {
-    dispatch(
-      addTask({
-        group_id: props.group.id,
-        name: "New Task",
-        description: "Fake description",
-        deadline: "",
-      }),
-    );
-  };
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -32,10 +26,51 @@ const Group: FC<GroupProps> = (props) => {
         {props.group.tasks.map((task) => (
           <Task key={task.id} task={task} />
         ))}
-        <button onClick={addNewTask} className="self-center">
+        <button onClick={() => setIsOpen(true)} className="self-center">
           <PlusIcon />
         </button>
       </div>
+      <TodoDialog
+        title="New Task"
+        isOpen={isOpen}
+        setIsOpen={() => {
+          setIsOpen(false);
+        }}
+      >
+        <GenericForm
+          setIsOpen={setIsOpen}
+          onSubmit={(values) => {
+            dispatch(addTask(values as Record<string, unknown> & ITaskRequest));
+          }}
+          initialValues={
+            {
+              group_id: props.group.id,
+              name: "",
+              description: "",
+              deadline: "",
+            } as Record<string, unknown> & ITaskRequest
+          }
+          fields={[
+            {
+              name: "name",
+              placeholder: "Task's name",
+              type: "text",
+              required: true,
+            },
+            {
+              name: "description",
+              placeholder: "Task's description",
+              type: "text",
+            },
+            {
+              name: "deadline",
+              placeholder: "Deadline",
+              type: "date",
+            },
+          ]}
+          submitButtonText={"Create Task"}
+        />
+      </TodoDialog>
     </div>
   );
 };

@@ -1,25 +1,21 @@
-import { RootState } from "@redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { addProject } from "@feature/data/dataSlice";
+import TodoDialog from "@components/Dialog";
+import FormNewField from "@components/GenericForm";
 import Project from "@components/Project";
+import { addProject } from "@feature/data/dataSlice";
+import { IProjectRequest } from "@models/Project";
+import { RootState } from "@redux/store";
 import { PlusIcon } from "lucide-react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
 
   const activeSidebar = useSelector(
-    (state: RootState) => state.sidebar.activeSidebar,
+    (state: RootState) => state.sidebar.activeSidebar
   );
   const data = useSelector((state: RootState) => state.data.data);
-
-  const addNewProject = () => {
-    dispatch(
-      addProject({
-        name: "New Project",
-        description: "Fake description",
-      }),
-    );
-  };
 
   return (
     <aside
@@ -32,10 +28,46 @@ const Sidebar = () => {
         {data.projects.map((project) => (
           <Project key={project.id} project={project} />
         ))}
-        <button onClick={addNewProject} className="self-center">
+        <button onClick={() => setIsOpen(true)} className="self-center">
           <PlusIcon />
         </button>
       </div>
+      <TodoDialog
+        title="New Project"
+        isOpen={isOpen}
+        setIsOpen={() => {
+          setIsOpen(false);
+        }}
+      >
+        <FormNewField
+          setIsOpen={setIsOpen}
+          onSubmit={(values) => {
+            dispatch(
+              addProject(values as Record<string, unknown> & IProjectRequest)
+            );
+          }}
+          initialValues={
+            {
+              name: "",
+              description: "",
+            } as Record<string, unknown> & IProjectRequest
+          }
+          fields={[
+            {
+              name: "name",
+              placeholder: "Project's name",
+              type: "text",
+              required: true,
+            },
+            {
+              name: "description",
+              placeholder: "Project's description",
+              type: "text",
+            },
+          ]}
+          submitButtonText={"Create Project"}
+        />
+      </TodoDialog>
     </aside>
   );
 };

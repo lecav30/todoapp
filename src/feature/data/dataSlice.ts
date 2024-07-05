@@ -1,9 +1,9 @@
-import { IData } from '@models/Data';
-import { IProject, IProjectRequest } from '@models/Project';
-import { IGroupRequest } from '@models/Group';
-import { ITask, ITaskRequest } from '@models/Task';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import data from '@server/data.json';
+import { IData } from "@models/Data";
+import { IProject, IProjectRequest } from "@models/Project";
+import { IGroupRequest } from "@models/Group";
+import { ITask, ITaskRequest } from "@models/Task";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import data from "@server/data.json";
 
 export interface DataState {
     data: IData;
@@ -24,99 +24,69 @@ const initialState: DataState = {
 };
 
 export const dataSlice = createSlice({
-    name: 'data',
+    name: "data",
     initialState,
     reducers: {
         changeProject: (state, action: PayloadAction<IProject>) => {
             state.currentProject = action.payload;
         },
         addProject: (state, action: PayloadAction<IProjectRequest>) => {
-            try {
-                state.projectIndex += 1;
-                state.data.projects.push({
-                    id: state.projectIndex,
-                    ...action.payload,
-                    groups: [],
-                });
-            } catch (err) {
-                console.error(err);
-            }
+            state.projectIndex += 1;
+            state.data.projects.push({
+                id: state.projectIndex,
+                ...action.payload,
+                groups: [],
+            });
         },
         addGroup: (state, action: PayloadAction<IGroupRequest>) => {
-            try {
-                state.groupIndex += 1;
-                // Find the project by ID
-                const project = state.data.projects.find(
-                    (p) => p.id === state.currentProject.id,
-                );
-                if (!project) {
-                    throw new Error('Project not found');
-                }
-                // Add the group to the found project
-                project.groups.push({
-                    id: state.groupIndex,
-                    ...action.payload,
-                    tasks: [],
-                });
-            } catch (err) {
-                console.error(err);
-            }
+            state.groupIndex += 1;
+            // Find the project by ID
+            const project = state.data.projects.find(
+                (p) => p.id === state.currentProject.id
+            );
+            if (!project) return;
+            // Add the group to the found project
+            project.groups.push({
+                id: state.groupIndex,
+                ...action.payload,
+                tasks: [],
+            });
         },
         addTask: (state, action: PayloadAction<ITaskRequest>) => {
-            try {
-                state.taskIndex += 1;
-                // Find the project by ID
-                const project = state.data.projects.find(
-                    (p) => p.id === state.currentProject.id,
-                );
-                if (!project) {
-                    throw new Error('Project not found');
-                }
-                // Find the group within the project by group_id
-                const group = project.groups.find(
-                    (g) => g.id === action.payload.group_id,
-                );
-                if (!group) {
-                    throw new Error('Group not found');
-                }
-                // Add the task to the found group
-                group.tasks.push({
-                    id: state.taskIndex,
-                    isCompleted: false,
-                    ...action.payload,
-                });
-            } catch (err) {
-                console.error(err);
-            }
+            state.taskIndex += 1;
+            // Find the project by ID
+            const project = state.data.projects.find(
+                (p) => p.id === state.currentProject.id
+            );
+            if (!project) return;
+            // Find the group within the project by group_id
+            const group = project.groups.find(
+                (g) => g.id === action.payload.group_id
+            );
+            if (!group) return;
+            // Add the task to the found group
+            group.tasks.push({
+                id: state.taskIndex,
+                isCompleted: false,
+                ...action.payload,
+            });
         },
         completeTask: (state, action: PayloadAction<ITask>) => {
-            try {
-                // Find the project by ID
-                const project = state.data.projects.find(
-                    (p) => p.id === state.currentProject.id,
-                );
-                if (!project) {
-                    throw new Error('Project not found');
-                }
-                // Find the group within the project by group_id
-                const group = project.groups.find(
-                    (g) => g.id === action.payload.group_id,
-                );
-                if (!group) {
-                    throw new Error('Group not found');
-                }
-                // Find the task within the group by task_id
-                const task = group.tasks.find(
-                    (t) => t.id === action.payload.id,
-                );
-                if (!task) {
-                    throw new Error('Task not found');
-                }
-                // Toggle the task's isCompleted property
-                task.isCompleted = !task.isCompleted;
-            } catch (err) {
-                console.error(err);
-            }
+            // Find the project by ID
+            const project = state.data.projects.find(
+                (p) => p.id === state.currentProject.id
+            );
+            if (!project) return;
+            // Find the group within the project by group_id
+            const group = project.groups.find(
+                (g) => g.id === action.payload.group_id
+            );
+            if (!group) return;
+            // Find the task within the group by task_id
+            const task = group.tasks.find((t) => t.id === action.payload.id);
+            if (!task) return;
+            // Toggle the task's isCompleted property
+            task.isCompleted = !task.isCompleted;
         },
     },
 });
