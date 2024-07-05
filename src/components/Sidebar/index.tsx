@@ -1,5 +1,5 @@
 import TodoDialog from "@components/Dialog";
-import FormNewField from "@components/GenericForm";
+import GenericForm from "@components/GenericForm";
 import Project from "@components/Project";
 import { addProject } from "@feature/data/dataSlice";
 import { IProjectRequest } from "@models/Project";
@@ -39,7 +39,7 @@ const Sidebar = () => {
           setIsOpen(false);
         }}
       >
-        <FormNewField
+        <GenericForm
           setIsOpen={setIsOpen}
           onSubmit={(values) => {
             dispatch(

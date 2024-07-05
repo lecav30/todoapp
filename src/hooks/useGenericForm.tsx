@@ -1,18 +1,18 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 
-interface IFormNewFieldProps<T> {
+interface IGenericFormProps<T> {
   initialValues: T;
   onSubmit: (values: T) => void;
 }
 
-const useFormNewField = <T extends Record<string, unknown>>({
+const useGenericForm = <T extends Record<string, unknown>>({
   initialValues,
   onSubmit,
-}: IFormNewFieldProps<T>) => {
+}: IGenericFormProps<T>) => {
   const [values, setValues] = useState<T>(initialValues);
 
   const handleInputChange = <K extends keyof T>(
-    e: ChangeEvent<HTMLInputElement & { name: K }>
+    e: ChangeEvent<HTMLInputElement & { name: K }>,
   ) => {
     const { name, value } = e.target;
     setValues((prevValues) => ({
@@ -29,4 +29,4 @@ const useFormNewField = <T extends Record<string, unknown>>({
   return { values, handleInputChange, handleSubmit };
 };
 
-export default useFormNewField;
+export default useGenericForm;

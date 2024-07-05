@@ -1,6 +1,6 @@
 import TodoButton from "@components/TodoButton";
 import TodoInput from "@components/TodoInput";
-import useFormNewField from "@hooks/useFormNewField";
+import useGenericForm from "@hooks/useGenericForm";
 import { FC } from "react";
 
 interface FormField {
@@ -25,7 +25,7 @@ const GenericForm: FC<GenericFormProps<Record<string, unknown>>> = ({
   fields,
   submitButtonText,
 }) => {
-  const { values, handleInputChange, handleSubmit } = useFormNewField({
+  const { values, handleInputChange, handleSubmit } = useGenericForm({
     initialValues,
     onSubmit: (values) => {
       onSubmit(values);

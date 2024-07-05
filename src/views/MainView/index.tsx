@@ -21,9 +21,12 @@ export const MainView = () => {
   return (
     <div className="h-[calc(100%-60px)] flex flex-col justify-center items-center">
       <div className="flex gap-10">
-        {data.projects[currentProject.id].groups.map((group: IGroup) => (
-          <Group key={group.id} group={group} />
-        ))}
+        {currentProject &&
+          data.projects[currentProject.id] &&
+          Array.isArray(data.projects[currentProject.id].groups) &&
+          data.projects[currentProject.id].groups.map((group: IGroup) => (
+            <Group key={group.id} group={group} />
+          ))}
         <button onClick={() => setIsOpen(true)} className="self-start mt-3">
           <PlusIcon />
         </button>

@@ -10,7 +10,7 @@ export interface DataState {
     projectIndex: number;
     groupIndex: number;
     taskIndex: number;
-    currentProject: IProject;
+    currentProject: IProject | null;
 }
 
 const initialState: DataState = {
@@ -38,11 +38,28 @@ export const dataSlice = createSlice({
                 groups: [],
             });
         },
+        editProject: (state, action: PayloadAction<IProjectRequest>) => {
+            if (!state.currentProject) return;
+            const project = state.data.projects.find(
+                (p) => p.id === state.currentProject!.id
+            );
+            if (!project) return;
+            project.name = action.payload.name;
+            project.description = action.payload.description;
+        },
+        deleteProject: (state, action: PayloadAction<number>) => {
+            state.data.projects = state.data.projects.filter(
+                (p) => p.id !== action.payload
+            );
+            if (state.data.projects.length === 0) state.currentProject = null;
+            else state.currentProject = state.data.projects[0];
+        },
         addGroup: (state, action: PayloadAction<IGroupRequest>) => {
             state.groupIndex += 1;
+            if (!state.currentProject) return;
             // Find the project by ID
             const project = state.data.projects.find(
-                (p) => p.id === state.currentProject.id
+                (p) => p.id === state.currentProject!.id
             );
             if (!project) return;
             // Add the group to the found project
@@ -54,9 +71,10 @@ export const dataSlice = createSlice({
         },
         addTask: (state, action: PayloadAction<ITaskRequest>) => {
             state.taskIndex += 1;
+            if (!state.currentProject) return;
             // Find the project by ID
             const project = state.data.projects.find(
-                (p) => p.id === state.currentProject.id
+                (p) => p.id === state.currentProject!.id
             );
             if (!project) return;
             // Find the group within the project by group_id
@@ -72,9 +90,10 @@ export const dataSlice = createSlice({
             });
         },
         completeTask: (state, action: PayloadAction<ITask>) => {
+            if (!state.currentProject) return;
             // Find the project by ID
             const project = state.data.projects.find(
-                (p) => p.id === state.currentProject.id
+                (p) => p.id === state.currentProject!.id
             );
             if (!project) return;
             // Find the group within the project by group_id
@@ -91,7 +110,14 @@ export const dataSlice = createSlice({
     },
 });
 
-export const { changeProject, addProject, addGroup, addTask, completeTask } =
-    dataSlice.actions;
+export const {
+    changeProject,
+    addProject,
+    editProject,
+    deleteProject,
+    addGroup,
+    addTask,
+    completeTask,
+} = dataSlice.actions;
 
 export default dataSlice.reducer;

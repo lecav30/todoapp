@@ -17,11 +17,14 @@ const Task: FC<TaskProps> = (props) => {
 
   return (
     <div
-      className="flex items-center gap-3 px-2 py-1 border-[1px] rounded-lg"
+      className={`flex items-center gap-3 px-2 py-1 border-[1px] rounded-lg 
+      ${props.task.isCompleted && "border-gray-400"}`}
       onClick={handleTaskComplete}
     >
       <Checkbox completed={props.task.isCompleted} />
-      <b className={`${props.task.isCompleted && "line-through"}`}>
+      <b
+        className={`${props.task.isCompleted && "line-through text-gray-400"}`}
+      >
         {props.task.name}
       </b>
     </div>
