@@ -6,7 +6,7 @@ interface CheckboxProps {
 
 const Checkbox: FC<CheckboxProps> = (props) => {
   return (
-    <div>
+    <>
       <div
         className={`flex justify-center items-center w-4 h-4 border-[1px] rounded-full 
         ${props.completed && "border-gray-400"}`}
@@ -17,7 +17,7 @@ const Checkbox: FC<CheckboxProps> = (props) => {
           }`}
         />
       </div>
-    </div>
+    </>
   );
 };
 

@@ -140,6 +140,58 @@ export const dataSlice = createSlice({
                 ...action.payload,
             });
         },
+        editTask: (
+            state,
+            action: PayloadAction<{
+                task_id: number;
+                task_request: ITaskRequest;
+            }>,
+        ) => {
+            // If there is no current project, return
+            if (!state.currentProject) return;
+            // Find the project by ID
+            const project = state.data.projects.find(
+                (p) => p.id === state.currentProject!.id,
+            );
+            if (!project) return;
+            // Find the group within the project by group_id
+            const group = project.groups.find(
+                (g) => g.id === action.payload.task_request.group_id,
+            );
+            if (!group) return;
+            // Find the task within the group by task_id
+            const task = group.tasks.find(
+                (t) => t.id === action.payload.task_id,
+            );
+            // Update the task's name, description and deadline
+            task!.name = action.payload.task_request.name;
+            task!.description = action.payload.task_request.description;
+            task!.deadline = action.payload.task_request.deadline;
+        },
+        deleteTask: (
+            state,
+            action: PayloadAction<{
+                group_id: number;
+                task_id: number;
+            }>,
+        ) => {
+            // If there is no current project, return
+            if (!state.currentProject) return;
+            // Find the project by ID
+            const project = state.data.projects.find(
+                (p) => p.id === state.currentProject!.id,
+            );
+            if (!project) return;
+            // Find the group within the project by group_id
+            const group = project.groups.find(
+                (g) => g.id === action.payload.group_id,
+            );
+            if (!group) return;
+            // Remove the task from the group
+            group.tasks = group.tasks.filter(
+                (t) => t.id !== action.payload.task_id,
+            );
+        },
         completeTask: (state, action: PayloadAction<ITask>) => {
             // If there is no current project, return
             if (!state.currentProject) return;
@@ -171,6 +223,8 @@ export const {
     editGroup,
     deleteGroup,
     addTask,
+    editTask,
+    deleteTask,
     completeTask,
 } = dataSlice.actions;
 
