@@ -1,13 +1,15 @@
 import Checkbox from "@components/Checkbox";
+import TodoDialog from "@components/Dialog";
+import GenericForm from "@components/GenericForm";
+import { completeTask, deleteTask, editTask } from "@feature/data/dataSlice";
+import { Popover, Transition } from "@headlessui/react";
+import useHover from "@hooks/useHover";
 import { ITask, ITaskRequest } from "@models/Task";
+import { Ellipsis } from "lucide-react";
 import { FC, Fragment, useState } from "react";
 import { useDispatch } from "react-redux";
-import { completeTask, deleteTask, editTask } from "@feature/data/dataSlice";
-import useHover from "@hooks/useHover";
-import GenericForm from "@components/GenericForm";
-import TodoDialog from "@components/Dialog";
-import { Popover, Transition } from "@headlessui/react";
-import { Ellipsis } from "lucide-react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface TaskProps {
   task: ITask;
@@ -28,6 +30,10 @@ const Task: FC<TaskProps> = (props) => {
 
   const [optionSelected, setOptionSelected] = useState(options[0]);
 
+  const notify = (message: string, completed: boolean) => {
+    completed ? toast.success(message) : toast.error(message);
+  };
+
   const defineDialogContent = (option: string) => {
     if (option === "Edit") {
       return (
@@ -38,7 +44,7 @@ const Task: FC<TaskProps> = (props) => {
               editTask({
                 task_id: props.task.id,
                 task_request: values as Record<string, unknown> & ITaskRequest,
-              }),
+              })
             );
           }}
           initialValues={
@@ -87,11 +93,19 @@ const Task: FC<TaskProps> = (props) => {
     >
       <div
         className="flex items-center gap-3 cursor-pointer min-w-[80%]"
-        onClick={handleTaskComplete}
+        onClick={() => {
+          handleTaskComplete();
+          notify(
+            `Task ${props.task.isCompleted ? "completed" : "uncompleted"}`,
+            props.task.isCompleted
+          );
+        }}
       >
         <Checkbox completed={props.task.isCompleted} />
         <b
-          className={`${props.task.isCompleted && "line-through text-gray-400"}`}
+          className={`${
+            props.task.isCompleted && "line-through text-gray-400"
+          }`}
         >
           {props.task.name}
         </b>
@@ -143,7 +157,7 @@ const Task: FC<TaskProps> = (props) => {
                   deleteTask({
                     group_id: props.task.group_id,
                     task_id: props.task.id,
-                  }),
+                  })
                 );
               }}
             >
