@@ -28,7 +28,7 @@ export const MainView = () => {
     // If there is no project, return
     if (!project) return;
     setGroups(project.groups);
-  }, [currentProject, data.projects]);
+  }, [currentProject, data.projects, currentProject?.groups]);
   // Update the groups when the current project changes (deleted) or
   // the projects change (a new project is added and the projects array is empty)
 
