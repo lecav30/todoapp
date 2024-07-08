@@ -13,10 +13,12 @@ function App() {
 
   return (
     <>
-      <div className={`${activeSidebar && "ml-80"} h-screen`}>
+      <div className="h-screen">
         <Sidebar />
-        <Navbar />
-        <MainView />
+        <div className={`${activeSidebar && "sm:ml-80 hidden sm:block"} h-full`}>
+          <Navbar />
+          <MainView />
+        </div>
       </div>
 
       <ToastContainer

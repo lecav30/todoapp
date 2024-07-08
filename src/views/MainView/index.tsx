@@ -14,7 +14,7 @@ export const MainView = () => {
   const dispatch = useDispatch();
 
   const currentProject = useSelector(
-    (state: RootState) => state.data.currentProject
+    (state: RootState) => state.data.currentProject,
   );
   const data = useSelector((state: RootState) => state.data.data);
 
@@ -34,7 +34,10 @@ export const MainView = () => {
 
   return (
     <div className="h-[calc(100%-60px)] flex flex-col justify-center items-center">
-      <div className="flex gap-10">
+      <div
+        className="grid 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1
+        gap-10 max-h-[80%] md:max-w-[80%] max-w-[90%] place-items-center overflow-auto"
+      >
         {groups.map((group: IGroup) => (
           <Group key={group.id} group={group} />
         ))}
@@ -53,7 +56,7 @@ export const MainView = () => {
           setIsOpen={setIsOpen}
           onSubmit={(values) => {
             dispatch(
-              addGroup(values as Record<string, unknown> & IGroupRequest)
+              addGroup(values as Record<string, unknown> & IGroupRequest),
             );
           }}
           initialValues={
