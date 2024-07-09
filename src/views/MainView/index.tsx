@@ -3,6 +3,7 @@ import GenericForm from "@components/GenericForm";
 import Group from "@components/Group";
 import { addGroup } from "@feature/data/dataSlice";
 import { IGroup, IGroupRequest } from "@models/Group";
+import { IProject } from "@models/Project";
 import { RootState } from "@redux/store";
 import { PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -21,14 +22,15 @@ export const MainView = () => {
   const [groups, setGroups] = useState<IGroup[]>([]);
 
   useEffect(() => {
+    let project: IProject | undefined = undefined;
     // If there is no current project, set groups to an empty array
     if (!currentProject) setGroups([]);
     // Find the current project and set its groups
-    const project = data.projects.find((p) => p.id === currentProject!.id);
+    else project = data?.projects.find((p) => p.id === currentProject!.id);
     // If there is no project, return
     if (!project) return;
     setGroups(project.groups);
-  }, [currentProject, data.projects, currentProject?.groups]);
+  }, [currentProject, data?.projects, currentProject?.groups]);
   // Update the groups when the current project changes (deleted) or
   // the projects change (a new project is added and the projects array is empty)
 
@@ -41,9 +43,11 @@ export const MainView = () => {
         {groups.map((group: IGroup) => (
           <Group key={group.id} group={group} />
         ))}
-        <button onClick={() => setIsOpen(true)} className="self-start mt-3">
-          <PlusIcon />
-        </button>
+        {currentProject && (
+          <button onClick={() => setIsOpen(true)} className="self-start mt-3">
+            <PlusIcon />
+          </button>
+        )}
       </div>
       <TodoDialog
         title="New Group"

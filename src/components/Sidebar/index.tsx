@@ -2,7 +2,7 @@ import TodoDialog from "@components/Dialog";
 import GenericForm from "@components/GenericForm";
 import Project from "@components/Project";
 import { addProject } from "@feature/data/dataSlice";
-import { IProjectRequest } from "@models/Project";
+import { IProject, IProjectRequest } from "@models/Project";
 import { RootState } from "@redux/store";
 import { PlusIcon, XIcon } from "lucide-react";
 import { useState } from "react";
@@ -25,16 +25,17 @@ const Sidebar = () => {
       flex flex-col items-center`}
     >
       <button
-        className="absolute right-5 top-10"
+        className="absolute right-5 top-10 sm:hidden"
         onClick={() => dispatch(toggleSidebar())}
       >
         <XIcon />
       </button>
       <b className="sm:py-4 pt-10 pb-2">Todoapp</b>
       <div className="flex flex-col sm:mt-20 mt-10">
-        {data.projects.map((project) => (
-          <Project key={project.id} project={project} />
-        ))}
+        {data !== null &&
+          data?.projects.map((project) => (
+            <Project key={project.id} project={project} />
+          ))}
         <button onClick={() => setIsOpen(true)} className="self-center">
           <PlusIcon />
         </button>

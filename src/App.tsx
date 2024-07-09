@@ -15,7 +15,9 @@ function App() {
     <>
       <div className="h-screen">
         <Sidebar />
-        <div className={`${activeSidebar && "sm:ml-80 hidden sm:block"} h-full`}>
+        <div
+          className={`${activeSidebar && "sm:ml-80 hidden sm:block"} h-full`}
+        >
           <Navbar />
           <MainView />
         </div>
