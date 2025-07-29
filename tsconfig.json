@@ -41,9 +41,6 @@
       "@utils/*": [
         "src/utils/*"
       ],
-      "@server/*": [
-        "src/server/*"
-      ],
       "@core/*": [
         "src/core/*"
       ],

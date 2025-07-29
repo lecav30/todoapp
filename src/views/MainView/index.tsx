@@ -3,36 +3,14 @@ import GenericForm from "@components/GenericForm";
 import Group from "@components/Group";
 import { addGroup } from "@feature/data/dataSlice";
 import { IGroup, IGroupRequest } from "@models/Group";
-import { IProject } from "@models/Project";
-import { RootState } from "@redux/store";
 import { PlusIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 export const MainView = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const dispatch = useDispatch();
-
-  const currentProject = useSelector(
-    (state: RootState) => state.data.currentProject,
-  );
-  const data = useSelector((state: RootState) => state.data.data);
-
-  const [groups, setGroups] = useState<IGroup[]>([]);
-
-  useEffect(() => {
-    let project: IProject | undefined = undefined;
-    // If there is no current project, set groups to an empty array
-    if (!currentProject) setGroups([]);
-    // Find the current project and set its groups
-    else project = data?.projects.find((p) => p.id === currentProject!.id);
-    // If there is no project, return
-    if (!project) return;
-    setGroups(project.groups);
-  }, [currentProject, data?.projects, currentProject?.groups]);
-  // Update the groups when the current project changes (deleted) or
-  // the projects change (a new project is added and the projects array is empty)
 
   return (
     <div className="h-[calc(100%-60px)] flex flex-col justify-center items-center">

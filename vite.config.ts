@@ -13,7 +13,6 @@ export default defineConfig({
       "@components": path.resolve(__dirname, "./src/components"),
       "@models": path.resolve(__dirname, "./src/models"),
       "@utils": path.resolve(__dirname, "./src/utils"),
-      "@server": path.resolve(__dirname, "./src/server"),
       "@core": path.resolve(__dirname, "./src/core"),
       "@redux": path.resolve(__dirname, "./src/redux"),
       "@feature": path.resolve(__dirname, "./src/feature"),
