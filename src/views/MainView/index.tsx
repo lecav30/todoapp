@@ -1,7 +1,6 @@
 import TodoDialog from "@components/Dialog";
 import GenericForm from "@components/GenericForm";
 import Group from "@components/Group";
-import { addGroup } from "@feature/data/dataSlice";
 import { IGroup, IGroupRequest } from "@models/Group";
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";

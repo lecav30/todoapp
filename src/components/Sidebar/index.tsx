@@ -1,7 +1,6 @@
 import TodoDialog from "@components/Dialog";
 import GenericForm from "@components/GenericForm";
 import Project from "@components/Project";
-import { addProject } from "@feature/data/dataSlice";
 import { IProject, IProjectRequest } from "@models/Project";
 import { RootState } from "@redux/store";
 import { PlusIcon, XIcon } from "lucide-react";

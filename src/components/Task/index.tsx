@@ -1,7 +1,6 @@
 import Checkbox from "@components/Checkbox";
 import TodoDialog from "@components/Dialog";
 import GenericForm from "@components/GenericForm";
-import { completeTask, deleteTask, editTask } from "@feature/data/dataSlice";
 import { Popover, Transition } from "@headlessui/react";
 import useHover from "@hooks/useHover";
 import { ITask, ITaskRequest } from "@models/Task";

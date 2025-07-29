@@ -5,7 +5,6 @@ import {
   changeProject,
   editProject,
   deleteProject,
-} from "@feature/data/dataSlice";
 import { RootState } from "@redux/store";
 import { Ellipsis } from "lucide-react";
 import useHover from "@hooks/useHover";
