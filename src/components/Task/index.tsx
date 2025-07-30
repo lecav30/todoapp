@@ -6,7 +6,6 @@ import useHover from "@hooks/useHover";
 import { ITask, ITaskRequest } from "@models/Task";
 import { Ellipsis } from "lucide-react";
 import { FC, Fragment, useState } from "react";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -17,10 +16,8 @@ interface TaskProps {
 const Task: FC<TaskProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const dispatch = useDispatch();
-
   const handleTaskComplete = () => {
-    dispatch(completeTask(props.task));
+    // dispatch(completeTask(props.task));
   };
 
   const [hovered, bind] = useHover();
@@ -39,12 +36,12 @@ const Task: FC<TaskProps> = (props) => {
         <GenericForm
           setIsOpen={setIsOpen}
           onSubmit={(values) => {
-            dispatch(
+            /* dispatch(
               editTask({
                 task_id: props.task.id,
                 task_request: values as Record<string, unknown> & ITaskRequest,
               })
-            );
+            ); */
           }}
           initialValues={
             {
@@ -152,12 +149,12 @@ const Task: FC<TaskProps> = (props) => {
               className="hover:bg-gray-500/50 w-full py-2 px-6"
               onClick={() => {
                 setOptionSelected("Delete");
-                dispatch(
+                /* dispatch(
                   deleteTask({
                     group_id: props.task.group_id,
                     task_id: props.task.id,
                   })
-                );
+                ); */
               }}
             >
               Delete

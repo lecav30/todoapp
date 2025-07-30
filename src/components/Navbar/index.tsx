@@ -2,14 +2,14 @@ import SidebarOnIcon from "@assets/svg_components/SidebarOn";
 import SidebarOffIcon from "@assets/svg_components/SidebarOff";
 import AccountIcon from "@assets/svg_components/Account";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@redux/store";
-import { toggleSidebar } from "@feature/sidebar/sidebarSlice";
+import { toggleSidebar } from "@feature/sidebar/sidebar.slice";
+import { IRootState } from "@core/store";
 
 const Navbar = () => {
   const dispatch = useDispatch();
 
   const activeSidebar = useSelector(
-    (state: RootState) => state.sidebar.activeSidebar,
+    (state: IRootState) => state.sidebar.activeSidebar,
   );
 
   const handleSidebar = () => {

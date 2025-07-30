@@ -1,11 +1,5 @@
 import { IProject, IProjectRequest } from "@models/Project";
 import { FC, Fragment, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  changeProject,
-  editProject,
-  deleteProject,
-import { RootState } from "@redux/store";
 import { Ellipsis } from "lucide-react";
 import useHover from "@hooks/useHover";
 import { Popover, Transition } from "@headlessui/react";
@@ -17,11 +11,7 @@ interface IProjectProps {
 }
 
 const Project: FC<IProjectProps> = (props) => {
-  const dispatch = useDispatch();
-
-  const currentProject = useSelector(
-    (state: RootState) => state.data.currentProject
-  );
+  const currentProject: any = null;
 
   const [hovered, bind] = useHover();
 
@@ -37,9 +27,9 @@ const Project: FC<IProjectProps> = (props) => {
         <GenericForm
           setIsOpen={setIsOpen}
           onSubmit={(values) => {
-            dispatch(
-              editProject(values as Record<string, unknown> & IProjectRequest)
-            );
+            /* dispatch(
+              editProject(values as Record<string, unknown> & IProjectRequest),
+            ); */
           }}
           initialValues={
             {
@@ -83,7 +73,8 @@ const Project: FC<IProjectProps> = (props) => {
         className={`${
           hovered && "font-medium"
         } text-xl py-2 cursor-pointer truncate w-[80%]`}
-        onClick={() => dispatch(changeProject(props.project))}
+        // onClick={() => dispatch(changeProject(props.project))}
+        onClick={() => {}}
       >
         {props.project.name}
       </p>
@@ -129,7 +120,7 @@ const Project: FC<IProjectProps> = (props) => {
               className="hover:bg-gray-500/50 w-full py-2 px-6"
               onClick={() => {
                 setOptionSelected("Delete");
-                dispatch(deleteProject(props.project.id));
+                // dispatch(deleteProject(props.project.id));
               }}
             >
               Delete

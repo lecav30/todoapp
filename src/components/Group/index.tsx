@@ -7,7 +7,6 @@ import { IGroup, IGroupRequest } from "@models/Group";
 import { ITaskRequest } from "@models/Task";
 import { Ellipsis, PlusIcon } from "lucide-react";
 import { FC, Fragment, useState } from "react";
-import { useDispatch } from "react-redux";
 
 interface GroupProps {
   group: IGroup;
@@ -16,8 +15,6 @@ interface GroupProps {
 const Group: FC<GroupProps> = (props) => {
   const [showAdd, setShowAdd] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-
-  const dispatch = useDispatch();
 
   const [hovered, bind] = useHover();
 
@@ -31,13 +28,13 @@ const Group: FC<GroupProps> = (props) => {
         <GenericForm
           setIsOpen={setShowMenu}
           onSubmit={(values) => {
-            dispatch(
+            /* dispatch(
               editGroup({
                 group_id: props.group.id,
                 group_request: values as Record<string, unknown> &
                   IGroupRequest,
               }),
-            );
+            ); */
           }}
           initialValues={
             {
@@ -126,7 +123,7 @@ const Group: FC<GroupProps> = (props) => {
                 className="hover:bg-gray-500/50 w-full py-2 px-6"
                 onClick={() => {
                   setOptionSelected("Delete");
-                  dispatch(deleteGroup(props.group.id));
+                  // dispatch(deleteGroup(props.group.id));
                 }}
               >
                 Delete
@@ -161,7 +158,7 @@ const Group: FC<GroupProps> = (props) => {
         <GenericForm
           setIsOpen={setShowAdd}
           onSubmit={(values) => {
-            dispatch(addTask(values as Record<string, unknown> & ITaskRequest));
+            // dispatch(addTask(values as Record<string, unknown> & ITaskRequest));
           }}
           initialValues={
             {

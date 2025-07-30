@@ -4,12 +4,12 @@ import Group from "@components/Group";
 import { IGroup, IGroupRequest } from "@models/Group";
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 
 export const MainView = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const dispatch = useDispatch();
+  const groups: any[] = [];
+  const currentProject: any = null;
 
   return (
     <div className="h-[calc(100%-60px)] flex flex-col justify-center items-center">
@@ -36,9 +36,10 @@ export const MainView = () => {
         <GenericForm
           setIsOpen={setIsOpen}
           onSubmit={(values) => {
-            dispatch(
+            console.log(values);
+            /* dispatch(
               addGroup(values as Record<string, unknown> & IGroupRequest),
-            );
+            ); */
           }}
           initialValues={
             {

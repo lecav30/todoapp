@@ -2,20 +2,21 @@ import TodoDialog from "@components/Dialog";
 import GenericForm from "@components/GenericForm";
 import Project from "@components/Project";
 import { IProject, IProjectRequest } from "@models/Project";
-import { RootState } from "@redux/store";
 import { PlusIcon, XIcon } from "lucide-react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleSidebar } from "@feature/sidebar/sidebarSlice";
+import { useDispatch } from "react-redux";
+import { IRootState, useAppSelector } from "@core/store";
+import { toggleSidebar } from "@feature/sidebar/sidebar.slice";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
-  const activeSidebar = useSelector(
-    (state: RootState) => state.sidebar.activeSidebar,
+  const activeSidebar = useAppSelector(
+    (state: IRootState) => state.sidebar.activeSidebar,
   );
-  const data = useSelector((state: RootState) => state.data.data);
+
+  const data: any = null;
 
   return (
     <aside
@@ -49,9 +50,9 @@ const Sidebar = () => {
         <GenericForm
           setIsOpen={setIsOpen}
           onSubmit={(values) => {
-            dispatch(
+            /* dispatch(
               addProject(values as Record<string, unknown> & IProjectRequest),
-            );
+            ); */
           }}
           initialValues={
             {
