@@ -7,10 +7,10 @@ interface TodoButtonProps {
 
 const TodoButton: FC<
   TodoButtonProps &
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >
+    React.DetailedHTMLProps<
+      React.ButtonHTMLAttributes<HTMLButtonElement>,
+      HTMLButtonElement
+    >
 > = ({ ...props }) => {
   return (
     <button
