@@ -1,6 +1,6 @@
-import Checkbox from "@components/Checkbox";
-import TodoDialog from "@components/Dialog";
-import GenericForm from "@components/GenericForm";
+import Checkbox from "@components/atoms/Checkbox";
+import TodoDialog from "@components/molecules/Dialog";
+import GenericForm from "@components/molecules/GenericForm";
 import { Popover, Transition } from "@headlessui/react";
 import useHover from "@hooks/useHover";
 import { ITask, ITaskRequest } from "@models/Task";
@@ -93,7 +93,7 @@ const Task: FC<TaskProps> = (props) => {
           handleTaskComplete();
           notify(
             `Task ${props.task.isCompleted ? "completed" : "uncompleted"}`,
-            props.task.isCompleted
+            props.task.isCompleted,
           );
         }}
       >

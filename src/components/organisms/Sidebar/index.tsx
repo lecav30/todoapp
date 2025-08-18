@@ -1,6 +1,6 @@
-import TodoDialog from "@components/Dialog";
-import GenericForm from "@components/GenericForm";
-import Project from "@components/Project";
+import TodoDialog from "@components/molecules/Dialog";
+import GenericForm from "@components/molecules/GenericForm";
+import Project from "@components/organisms/Project";
 import { IProject, IProjectRequest } from "@models/Project";
 import { PlusIcon, XIcon } from "lucide-react";
 import { useState } from "react";

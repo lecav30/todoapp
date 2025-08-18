@@ -1,5 +1,5 @@
-import TodoButton from "@components/TodoButton";
-import TodoInput from "@components/TodoInput";
+import TodoButton from "@components/atoms/TodoButton";
+import TodoInput from "@components/atoms/TodoInput";
 import useGenericForm from "@hooks/useGenericForm";
 import { FC } from "react";
 

@@ -3,8 +3,8 @@ import { FC, Fragment, useState } from "react";
 import { Ellipsis } from "lucide-react";
 import useHover from "@hooks/useHover";
 import { Popover, Transition } from "@headlessui/react";
-import TodoDialog from "@components/Dialog";
-import GenericForm from "@components/GenericForm";
+import TodoDialog from "@components/molecules/Dialog";
+import GenericForm from "@components/molecules/GenericForm";
 
 interface IProjectProps {
   project: IProject;

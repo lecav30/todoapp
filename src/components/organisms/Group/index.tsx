@@ -1,6 +1,6 @@
-import TodoDialog from "@components/Dialog";
-import GenericForm from "@components/GenericForm";
-import Task from "@components/Task";
+import TodoDialog from "@components/molecules/Dialog";
+import GenericForm from "@components/molecules/GenericForm";
+import Task from "@components/organisms/Task";
 import { Popover, Transition } from "@headlessui/react";
 import useHover from "@hooks/useHover";
 import { IGroup, IGroupRequest } from "@models/Group";
