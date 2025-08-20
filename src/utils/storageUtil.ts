@@ -8,8 +8,8 @@ const token =
 const ISSERVER = typeof window === "undefined";
 
 /* localStorage */
-export const saveLocalToken = (token: string) => {
-  if (!ISSERVER) localStorage.setItem(token, token);
+export const saveLocalToken = (newToken: string) => {
+  if (!ISSERVER) localStorage.setItem(token, newToken);
 };
 
 /* return any string */
