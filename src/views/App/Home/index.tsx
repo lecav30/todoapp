@@ -1,5 +1,5 @@
-import Navbar from "@components/Navbar";
-import Sidebar from "@components/Sidebar";
+import Navbar from "@components/molecules/Navbar";
+import Sidebar from "@components/organisms/Sidebar";
 import { ToastContainer } from "react-toastify";
 import { IRootState, useAppSelector } from "@core/store";
 import MainView from "./components/MainView";

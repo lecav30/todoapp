@@ -1,6 +1,6 @@
-import TodoDialog from "@components/Dialog";
-import GenericForm from "@components/GenericForm";
-import Group from "@components/Group";
+import TodoDialog from "@components/molecules/Dialog";
+import GenericForm from "@components/molecules/GenericForm";
+import Group from "@components/organisms/Group";
 import { IGroup, IGroupRequest } from "@models/Group";
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
