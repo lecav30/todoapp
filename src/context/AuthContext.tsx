@@ -1,20 +1,40 @@
 import { useAppDispatch } from "@core/store";
 import { getLocalToken, removeLocalToken } from "@utils/storageUtil";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "@feature/auth/auth.thunk";
 
-const AuthContext = createContext<any>(null);
+interface AuthContextProps {
+  isAuthenticated: boolean;
+  setIsAuthenticated: (value: boolean) => void;
+  handleLogin: ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => void;
+  handleLogout: () => void;
+}
 
-export const AuthProvider = ({ children }: any) => {
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const token = getLocalToken();
+    console.log(token);
     setIsAuthenticated(!!token);
-  }, [isAuthenticated, navigate]);
+  }, []);
 
   const handleLogout = () => {
     removeLocalToken();
@@ -22,19 +42,20 @@ export const AuthProvider = ({ children }: any) => {
     navigate("/login");
   };
 
-  const handleLogin = async ({
+  const handleLogin = ({
     email,
     password,
   }: {
     email: string;
     password: string;
   }) => {
-    const resultAction = await dispatch(login({ email, password }));
-
-    if (login.fulfilled.match(resultAction)) {
-      setIsAuthenticated(true);
-      navigate("/");
-    }
+    dispatch(login({ email, password })).then((e) => {
+      if (e.meta.requestStatus === "fulfilled") {
+        console.log("redirect success");
+        setIsAuthenticated(true);
+        navigate("/");
+      }
+    });
   };
 
   return (
@@ -46,4 +67,10 @@ export const AuthProvider = ({ children }: any) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};

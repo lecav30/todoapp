@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import authServices from "@services/auth.services";
+import { saveLocalToken } from "@utils/storageUtil";
 import { AxiosError } from "axios";
 
 export const login = createAsyncThunk(
@@ -15,10 +16,11 @@ export const login = createAsyncThunk(
       const response = (await authServices.login(
         payload.email,
         payload.password,
-      )) as { token: string };
+      )) as { message: string; token: string };
 
       if (response?.token) {
-        return response.token;
+        saveLocalToken(response?.token);
+        return response?.token;
       }
     } catch (error) {
       const err = error as AxiosError;

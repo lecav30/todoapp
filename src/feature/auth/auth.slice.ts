@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { login } from "./auth.thunk";
-import { saveLocalToken } from "@utils/storageUtil";
 
 export interface AuthState {
   loading: boolean;
@@ -16,8 +15,7 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(login.fulfilled, (state, action) => {
-        saveLocalToken(action.payload);
+      .addCase(login.fulfilled, (state, action: any) => {
         state.loading = false;
       })
       .addCase(login.rejected, (state, action) => {
