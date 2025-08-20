@@ -1,9 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { login } from "./auth.thunk";
+import { saveLocalToken } from "@utils/storageUtil";
 
-export interface AuthState {}
+export interface AuthState {
+  loading: boolean;
+}
 
-const initialState: AuthState = {};
+const initialState: AuthState = {
+  loading: false,
+};
 
 export const authSlice = createSlice({
   name: "auth",
@@ -12,13 +17,14 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
-        console.log(action.payload);
+        saveLocalToken(action.payload);
+        state.loading = false;
       })
       .addCase(login.rejected, (state, action) => {
-        console.log(action.payload);
+        state.loading = false;
       })
       .addCase(login.pending, (state) => {
-        console.log("pending");
+        state.loading = true;
       });
   },
 });

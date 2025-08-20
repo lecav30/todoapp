@@ -1,7 +1,7 @@
 "use-client";
 
 const token =
-  process.env.NEXT_PUBLIC_ENV === "production"
+  import.meta.env.VITE_PUBLIC_ENV === "production"
     ? "token"
     : "token_dev";
 

@@ -9,7 +9,7 @@ export const login = createAsyncThunk(
       email: string;
       password: string;
     },
-   { rejectWithValue, dispatch },
+    { rejectWithValue, dispatch },
   ) => {
     try {
       const response = (await authServices.login(
@@ -18,9 +18,6 @@ export const login = createAsyncThunk(
       )) as { token: string };
 
       if (response?.token) {
-        // store.dispatch(setToken(response.token));
-
-        window.location.replace("/");
         return response.token;
       }
     } catch (error) {
