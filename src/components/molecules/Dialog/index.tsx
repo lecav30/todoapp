@@ -4,6 +4,7 @@ import {
   DialogPanel,
   DialogTitle,
   Transition,
+  TransitionChild,
 } from "@headlessui/react";
 import { Fragment, ReactNode } from "react";
 import { FC } from "react";
@@ -25,7 +26,7 @@ const TodoDialog: FC<TodoDialogProps> = ({ ...props }) => {
         onClose={() => props.setIsOpen(false)}
         className="relative z-10"
       >
-        <Transition.Child
+        <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
           enterFrom="opacity-0"
@@ -35,11 +36,11 @@ const TodoDialog: FC<TodoDialogProps> = ({ ...props }) => {
           leaveTo="opacity-0"
         >
           <div className="fixed inset-0 bg-black/25" />
-        </Transition.Child>
+        </TransitionChild>
 
         <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 backdrop-blur-[8px]">
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
               enterFrom="opacity-0 scale-95"
@@ -60,7 +61,7 @@ const TodoDialog: FC<TodoDialogProps> = ({ ...props }) => {
                 )}
                 {props.children}
               </DialogPanel>
-            </Transition.Child>
+            </TransitionChild>
           </div>
         </div>
       </Dialog>
