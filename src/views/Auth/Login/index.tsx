@@ -1,16 +1,86 @@
+"use client";
+import * as Yup from "yup";
 import TodoButton from "@components/atoms/TodoButton";
 import TodoInput from "@components/atoms/TodoInput";
+import { useAuth } from "@context/AuthContext";
+import { useState } from "react";
 
 const Login = () => {
+  const { handleLogin } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {},
+  );
+
+  const validationSchema = Yup.object({
+    email: Yup.string().email("Email inválido").required("Email es requerido"),
+    password: Yup.string()
+      .min(6, "Mínimo 6 caracteres")
+      .required("Contraseña es requerida"),
+  });
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await validationSchema.validate(
+        { email, password },
+        { abortEarly: false },
+      );
+      setErrors({});
+      handleLogin({ email, password });
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const newErrors: typeof errors = {};
+        err.inner.forEach((error) => {
+          if (error.path)
+            newErrors[error.path as keyof typeof errors] = error.message;
+        });
+        setErrors(newErrors);
+      }
+    }
+  };
+
+  const haveErrors = Object.keys(errors).length > 0;
+
   return (
-    <div className="flex flex-col items-center justify-center gap-4 p-4 h-screen">
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col items-center justify-center gap-4 p-4 h-screen"
+    >
       <b className="text-3xl mb-5">Login</b>
-      <div className="flex flex-col items-center gap-4 border-2 border-gray-400 rounded-lg p-8">
-        <TodoInput type="text" placeholder="Email" />
-        <TodoInput type="password" placeholder="Password" />
-        <TodoButton>Login</TodoButton>
+      <div
+        className="flex flex-col items-center gap-4 border-2 border-gray-400 rounded-lg
+        p-8"
+      >
+        <TodoInput
+          type="text"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        {errors.email && (
+          <span className="text-red-500 text-sm">{errors.email}</span>
+        )}
+        <TodoInput
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        {errors.password && (
+          <span className="text-red-500 text-sm">{errors.password}</span>
+        )}
+        <TodoButton
+          customclass={haveErrors ? "" : "cursor-pointer"}
+          type="submit"
+          disabled={haveErrors}
+        >
+          Login
+        </TodoButton>
       </div>
-    </div>
+    </form>
   );
 };
 
