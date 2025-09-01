@@ -66,7 +66,14 @@ const Login = () => {
           type="text"
           placeholder="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setErrors((prev) => {
+              const newErrors = { ...prev };
+              delete newErrors.email;
+              return newErrors;
+            });
+          }}
         />
         {errors.email && (
           <span className="text-red-500 text-sm">{errors.email}</span>
@@ -75,7 +82,14 @@ const Login = () => {
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setErrors((prev) => {
+              const newErrors = { ...prev };
+              delete newErrors.password;
+              return newErrors;
+            });
+          }}
         />
         {errors.password && (
           <span className="text-red-500 text-sm">{errors.password}</span>
