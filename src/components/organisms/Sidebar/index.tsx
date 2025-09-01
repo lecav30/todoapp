@@ -3,10 +3,11 @@ import GenericForm from "@components/molecules/GenericForm";
 import Project from "@components/organisms/Project";
 import { IProject, IProjectRequest } from "@models/Project";
 import { PlusIcon, XIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IRootState, useAppDispatch, useAppSelector } from "@core/store";
 import { toggleSidebar } from "@feature/sidebar/sidebar.slice";
 import { createProject } from "@feature/project/project.thunk";
+import { getGroupsByProjectId } from "@feature/group/group.thunk";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -18,6 +19,12 @@ const Sidebar = () => {
   const { projects, selectedProject } = useAppSelector(
     (state: IRootState) => state.project,
   );
+
+  useEffect(() => {
+    if (selectedProject) {
+      dispatch(getGroupsByProjectId(selectedProject.id));
+    }
+  }, [selectedProject]);
 
   return (
     <aside

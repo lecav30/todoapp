@@ -1,6 +1,7 @@
 import TodoDialog from "@components/molecules/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
 import Group from "@components/organisms/Group";
+import { IRootState, useAppSelector } from "@core/store";
 import { IGroup, IGroupRequest } from "@models/Group";
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
@@ -8,8 +9,7 @@ import { useState } from "react";
 export const MainView = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const groups: any[] = [];
-  const currentProject: any = null;
+  const { groups } = useAppSelector((state: IRootState) => state.group);
 
   return (
     <div className="h-[calc(100%-60px)] flex flex-col justify-center items-center">
@@ -20,11 +20,12 @@ export const MainView = () => {
         {groups.map((group: IGroup) => (
           <Group key={group.id} group={group} />
         ))}
-        {currentProject && (
-          <button onClick={() => setIsOpen(true)} className="self-start mt-3">
-            <PlusIcon />
-          </button>
-        )}
+        <button
+          onClick={() => setIsOpen(true)}
+          className="self-start mt-3 cursor-pointer"
+        >
+          <PlusIcon />
+        </button>
       </div>
       <TodoDialog
         title="New Group"
