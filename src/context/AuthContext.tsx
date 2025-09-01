@@ -9,6 +9,7 @@ import {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "@feature/auth/auth.thunk";
+import { getOwnProjects } from "@feature/project/project.thunk";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -32,9 +33,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const token = getLocalToken();
-    console.log(token);
     setIsAuthenticated(!!token);
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(getOwnProjects());
+    }
+  }, [isAuthenticated]);
 
   const handleLogout = () => {
     removeLocalToken();

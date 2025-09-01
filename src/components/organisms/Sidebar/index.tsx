@@ -4,19 +4,20 @@ import Project from "@components/organisms/Project";
 import { IProject, IProjectRequest } from "@models/Project";
 import { PlusIcon, XIcon } from "lucide-react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { IRootState, useAppSelector } from "@core/store";
+import { IRootState, useAppDispatch, useAppSelector } from "@core/store";
 import { toggleSidebar } from "@feature/sidebar/sidebar.slice";
+import { createProject } from "@feature/project/project.thunk";
 
 const Sidebar = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
   const activeSidebar = useAppSelector(
     (state: IRootState) => state.sidebar.activeSidebar,
   );
-
-  const data: any = null;
+  const { projects, selectedProject } = useAppSelector(
+    (state: IRootState) => state.project,
+  );
 
   return (
     <aside
@@ -32,11 +33,17 @@ const Sidebar = () => {
       </button>
       <b className="sm:py-4 pt-10 pb-2">Todoapp</b>
       <div className="flex flex-col sm:mt-20 mt-10">
-        {data !== null &&
-          data?.projects.map((project) => (
-            <Project key={project.id} project={project} />
-          ))}
-        <button onClick={() => setIsOpen(true)} className="self-center">
+        {projects?.map((project: IProject) => (
+          <Project
+            key={project.id}
+            project={project}
+            isCurrent={project.id === selectedProject?.id}
+          />
+        ))}
+        <button
+          onClick={() => setIsOpen(true)}
+          className="self-center cursor-pointer"
+        >
           <PlusIcon />
         </button>
       </div>
@@ -50,9 +57,11 @@ const Sidebar = () => {
         <GenericForm
           setIsOpen={setIsOpen}
           onSubmit={(values) => {
-            /* dispatch(
-              addProject(values as Record<string, unknown> & IProjectRequest),
-            ); */
+            dispatch(
+              createProject(
+                values as Record<string, unknown> & IProjectRequest,
+              ),
+            );
           }}
           initialValues={
             {

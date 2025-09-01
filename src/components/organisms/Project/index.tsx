@@ -5,20 +5,21 @@ import useHover from "@hooks/useHover";
 import { Popover, Transition } from "@headlessui/react";
 import TodoDialog from "@components/molecules/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
+import { useAppDispatch } from "@core/store";
+import { changeProject } from "@feature/project/project.thunk";
 
 interface IProjectProps {
   project: IProject;
+  isCurrent: boolean;
 }
 
 const Project: FC<IProjectProps> = (props) => {
-  const currentProject: any = null;
-
+  const dispatch = useAppDispatch();
   const [hovered, bind] = useHover();
 
   const options = ["Edit", "Delete", "About"];
 
   const [optionSelected, setOptionSelected] = useState(options[0]);
-
   const [isOpen, setIsOpen] = useState(false);
 
   const defineDialogContent = (option: string) => {
@@ -66,15 +67,14 @@ const Project: FC<IProjectProps> = (props) => {
     <div
       className={`flex items-center justify-between px-3 py-1 mb-6 min-w-52
       hover:bg-gray-500/20 hover:rounded-lg
-      ${currentProject!.id === props.project.id && "border-b"}`}
+      ${props.isCurrent && "border-b"}`}
       {...bind}
     >
       <p
         className={`${
           hovered && "font-medium"
         } text-xl py-2 cursor-pointer truncate w-[80%]`}
-        // onClick={() => dispatch(changeProject(props.project))}
-        onClick={() => {}}
+        onClick={() => dispatch(changeProject(props.project))}
       >
         {props.project.name}
       </p>
