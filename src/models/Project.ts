@@ -1,10 +1,9 @@
-import { IGroup } from './Group';
-
 export interface IProject {
     id: number;
     name: string;
     description: string;
-    groups: IGroup[];
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface IProjectRequest {

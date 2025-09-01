@@ -1,10 +1,13 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { IProject, IProjectRequest } from "@models/Project";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import projectServices from "@services/project.services";
 import { AxiosError } from "axios";
 
+export const changeProject = createAction<IProject>("changeProject");
+
 export const createProject = createAsyncThunk(
   "createProject",
-  async (payload: any, { rejectWithValue, dispatch }) => {
+  async (payload: IProjectRequest, { rejectWithValue, dispatch }) => {
     try {
       const response = await projectServices.createProject(payload);
       return response;
