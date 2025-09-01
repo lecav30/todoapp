@@ -2,7 +2,12 @@ import { IProject, IProjectRequest } from "@models/Project";
 import { FC, Fragment, useState } from "react";
 import { Ellipsis } from "lucide-react";
 import useHover from "@hooks/useHover";
-import { Popover, Transition } from "@headlessui/react";
+import {
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Transition,
+} from "@headlessui/react";
 import TodoDialog from "@components/molecules/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
 import { useAppDispatch } from "@core/store";
@@ -71,20 +76,19 @@ const Project: FC<IProjectProps> = (props) => {
       {...bind}
     >
       <p
-        className={`${
-          hovered && "font-medium"
-        } text-xl py-2 cursor-pointer truncate w-[80%]`}
+        className={`text-xl py-2 cursor-pointer truncate w-[80%]
+        ${hovered && "font-medium"}`}
         onClick={() => dispatch(changeProject(props.project))}
       >
         {props.project.name}
       </p>
       <Popover className="relative flex">
-        <Popover.Button
+        <PopoverButton
           className={`${!hovered ? "hidden opacity-0" : "opacity-100"}
           focus:outline-none items-center`}
         >
           <Ellipsis />
-        </Popover.Button>
+        </PopoverButton>
         <Transition
           as={Fragment}
           enter="transition ease-out duration-200"
@@ -94,7 +98,7 @@ const Project: FC<IProjectProps> = (props) => {
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 translate-y-1"
         >
-          <Popover.Panel
+          <PopoverPanel
             className="absolute left-6 top-6 bg-primary flex flex-col
             border-white border rounded-[6px] text-sm"
           >
@@ -125,7 +129,7 @@ const Project: FC<IProjectProps> = (props) => {
             >
               Delete
             </button>
-          </Popover.Panel>
+          </PopoverPanel>
         </Transition>
       </Popover>
       <TodoDialog
