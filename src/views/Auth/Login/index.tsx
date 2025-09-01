@@ -3,15 +3,23 @@ import * as Yup from "yup";
 import TodoButton from "@components/atoms/TodoButton";
 import TodoInput from "@components/atoms/TodoInput";
 import { useAuth } from "@context/AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { handleLogin } = useAuth();
+  const navigate = useNavigate();
+  const { handleLogin, isAuthenticated } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
 
   const validationSchema = Yup.object({
     email: Yup.string().email("Email inválido").required("Email es requerido"),
