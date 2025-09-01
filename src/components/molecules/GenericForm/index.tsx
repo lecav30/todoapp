@@ -51,7 +51,7 @@ const GenericForm: FC<GenericFormProps<Record<string, unknown>>> = ({
           onChange={handleInputChange}
         />
       ))}
-      <TodoButton type="submit" customclass="mx-auto">
+      <TodoButton type="submit" customclass="mx-auto cursor-pointer">
         {submitButtonText}
       </TodoButton>
     </form>
