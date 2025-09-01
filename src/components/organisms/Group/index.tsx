@@ -1,7 +1,7 @@
 import TodoDialog from "@components/molecules/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
 import Task from "@components/organisms/Task";
-import { Popover, Transition } from "@headlessui/react";
+import { Popover, PopoverButton, PopoverPanel, Transition } from "@headlessui/react";
 import useHover from "@hooks/useHover";
 import { IGroup, IGroupRequest } from "@models/Group";
 import { ITaskRequest } from "@models/Task";
@@ -82,12 +82,12 @@ const Group: FC<GroupProps> = (props) => {
           {props.group.name}
         </p>
         <Popover className="relative flex">
-          <Popover.Button
+          <PopoverButton
             className={`${!hovered ? "hidden opacity-0" : "opacity-100"}
             focus:outline-none items-center`}
           >
             <Ellipsis />
-          </Popover.Button>
+          </PopoverButton>
           <Transition
             as={Fragment}
             enter="transition ease-out duration-200"
@@ -97,7 +97,7 @@ const Group: FC<GroupProps> = (props) => {
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel
+            <PopoverPanel
               className="absolute -right-3 top-8 bg-primary flex flex-col
               border-white border rounded-[6px] text-sm"
             >
@@ -128,15 +128,15 @@ const Group: FC<GroupProps> = (props) => {
               >
                 Delete
               </button>
-            </Popover.Panel>
+            </PopoverPanel>
           </Transition>
         </Popover>
       </div>
 
       <div className="flex flex-col gap-4">
-        {props.group.tasks.map((task) => (
+        {/* {props.group.tasks.map((task) => (
           <Task key={task.id} task={task} />
-        ))}
+        ))} */}
         <button onClick={() => setShowAdd(true)} className="self-center">
           <PlusIcon />
         </button>
