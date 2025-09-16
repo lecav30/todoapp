@@ -1,15 +1,21 @@
 import TodoDialog from "@components/molecules/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
 import Group from "@components/organisms/Group";
-import { IRootState, useAppSelector } from "@core/store";
+import { IRootState, useAppDispatch, useAppSelector } from "@core/store";
+import { createGroup } from "@feature/group/group.thunk";
 import { IGroup, IGroupRequest } from "@models/Group";
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 
 export const MainView = () => {
+  const dispatch = useAppDispatch();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const { groups } = useAppSelector((state: IRootState) => state.group);
+  const { selectedProject } = useAppSelector(
+    (state: IRootState) => state.project,
+  );
 
   return (
     <div className="h-[calc(100%-60px)] flex flex-col justify-center items-center">
@@ -38,15 +44,15 @@ export const MainView = () => {
         <GenericForm
           setIsOpen={setIsOpen}
           onSubmit={(values) => {
-            console.log(values);
-            /* dispatch(
-              addGroup(values as Record<string, unknown> & IGroupRequest),
-            ); */
+            dispatch(
+              createGroup(values as Record<string, unknown> & IGroupRequest),
+            );
           }}
           initialValues={
             {
               name: "",
               description: "",
+              projectId: selectedProject?.id,
             } as Record<string, unknown> & IGroupRequest
           }
           fields={[

@@ -10,4 +10,5 @@ export interface IGroup {
 export interface IGroupRequest {
   name: string;
   description: string;
+  projectId: number;
 }

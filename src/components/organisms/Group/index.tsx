@@ -159,7 +159,10 @@ const Group: FC<GroupProps> = (props) => {
         {tasks.map((task) => (
           <Task key={task.id} task={task} />
         ))}
-        <button onClick={() => setShowAdd(true)} className="self-center">
+        <button
+          onClick={() => setShowAdd(true)}
+          className="self-center cursor-pointer"
+        >
           <PlusIcon />
         </button>
       </div>

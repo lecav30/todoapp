@@ -1,12 +1,14 @@
+import { IGroupRequest } from "@models/Group";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import groupServices from "@services/group.services";
 import { AxiosError } from "axios";
 
 export const createGroup = createAsyncThunk(
   "createGroup",
-  async (payload: any, { rejectWithValue, dispatch }) => {
+  async (payload: IGroupRequest, { rejectWithValue, dispatch }) => {
     try {
       const response = await groupServices.createGroup(payload);
+      dispatch(getGroupsByProjectId(payload.projectId));
       return response;
     } catch (error) {
       const err = error as AxiosError;
