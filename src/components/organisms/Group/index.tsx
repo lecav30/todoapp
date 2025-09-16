@@ -2,7 +2,7 @@ import TodoDialog from "@components/molecules/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
 import Task from "@components/organisms/Task";
 import { IRootState, useAppDispatch, useAppSelector } from "@core/store";
-import { getTasksByGroupId } from "@feature/task/task.thunk";
+import { createTask, getTasksByGroupId } from "@feature/task/task.thunk";
 import {
   Popover,
   PopoverButton,
@@ -183,11 +183,13 @@ const Group: FC<GroupProps> = (props) => {
         <GenericForm
           setIsOpen={setShowAdd}
           onSubmit={(values) => {
-            // dispatch(addTask(values as Record<string, unknown> & ITaskRequest));
+            dispatch(
+              createTask(values as Record<string, unknown> & ITaskRequest),
+            );
           }}
           initialValues={
             {
-              group_id: props.group.id,
+              groupId: props.group.id,
               name: "",
               description: "",
               deadline: "",

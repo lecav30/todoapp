@@ -1,12 +1,20 @@
+import { ITaskRequest } from "@models/Task";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import taskServices from "@services/task.services";
 import { AxiosError } from "axios";
 
 export const createTask = createAsyncThunk(
   "createTask",
-  async (payload: any, { rejectWithValue, dispatch }) => {
+  async (payload: ITaskRequest, { rejectWithValue, dispatch }) => {
     try {
-      const response = await taskServices.createTask(payload);
+      const newPayload = {
+        ...payload,
+        deadline: payload.deadline
+          ? new Date(payload.deadline).toISOString()
+          : undefined,
+      };
+      const response = await taskServices.createTask(newPayload);
+      dispatch(getTasksByGroupId(payload.groupId));
       return response;
     } catch (error) {
       const err = error as AxiosError;
