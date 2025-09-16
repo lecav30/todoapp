@@ -1,12 +1,19 @@
 import TodoDialog from "@components/molecules/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
 import Task from "@components/organisms/Task";
-import { Popover, PopoverButton, PopoverPanel, Transition } from "@headlessui/react";
+import { IRootState, useAppDispatch, useAppSelector } from "@core/store";
+import { getTasksByGroupId } from "@feature/task/task.thunk";
+import {
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Transition,
+} from "@headlessui/react";
 import useHover from "@hooks/useHover";
 import { IGroup, IGroupRequest } from "@models/Group";
-import { ITaskRequest } from "@models/Task";
+import { ITask, ITaskRequest } from "@models/Task";
 import { Ellipsis, PlusIcon } from "lucide-react";
-import { FC, Fragment, useState } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 
 interface GroupProps {
   group: IGroup;
@@ -16,11 +23,26 @@ const Group: FC<GroupProps> = (props) => {
   const [showAdd, setShowAdd] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
+  const dispatch = useAppDispatch();
+
   const [hovered, bind] = useHover();
 
   const options = ["Edit", "Delete", "About"];
 
   const [optionSelected, setOptionSelected] = useState(options[0]);
+  const [tasks, setTasks] = useState<ITask[]>([]);
+
+  const { tasksByGroupId } = useAppSelector((state: IRootState) => state.task);
+
+  useEffect(() => {
+    dispatch(getTasksByGroupId(props.group.id));
+  }, []);
+
+  useEffect(() => {
+    if (tasksByGroupId[props.group.id]) {
+      setTasks(tasksByGroupId[props.group.id]);
+    }
+  }, [tasksByGroupId]);
 
   const defineDialogContent = (option: string) => {
     if (option === "Edit") {
@@ -134,9 +156,9 @@ const Group: FC<GroupProps> = (props) => {
       </div>
 
       <div className="flex flex-col gap-4">
-        {/* {props.group.tasks.map((task) => (
+        {tasks.map((task) => (
           <Task key={task.id} task={task} />
-        ))} */}
+        ))}
         <button onClick={() => setShowAdd(true)} className="self-center">
           <PlusIcon />
         </button>

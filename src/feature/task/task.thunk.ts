@@ -32,7 +32,10 @@ export const getTasksByGroupId = createAsyncThunk(
   async (groupId: number, { rejectWithValue, dispatch }) => {
     try {
       const response = await taskServices.getTasksByGroupId(groupId);
-      return response;
+      return {
+        groupId,
+        tasks: response,
+      };
     } catch (error) {
       const err = error as AxiosError;
       /* if (err.status === 403) {

@@ -1,7 +1,12 @@
 import Checkbox from "@components/atoms/Checkbox";
 import TodoDialog from "@components/molecules/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
-import { Popover, Transition } from "@headlessui/react";
+import {
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Transition,
+} from "@headlessui/react";
 import useHover from "@hooks/useHover";
 import { ITask, ITaskRequest } from "@models/Task";
 import { Ellipsis } from "lucide-react";
@@ -84,7 +89,7 @@ const Task: FC<TaskProps> = (props) => {
   return (
     <div
       className={`flex justify-between px-2 py-1 border-[1px] rounded-lg hover:bg-gray-500/20
-      ${props.task.isCompleted && "border-gray-400"}`}
+      ${props.task.completed && "border-gray-400"}`}
       {...bind}
     >
       <div
@@ -92,28 +97,26 @@ const Task: FC<TaskProps> = (props) => {
         onClick={() => {
           handleTaskComplete();
           notify(
-            `Task ${props.task.isCompleted ? "completed" : "uncompleted"}`,
-            props.task.isCompleted,
+            `Task ${props.task.completed ? "completed" : "uncompleted"}`,
+            props.task.completed,
           );
         }}
       >
-        <Checkbox completed={props.task.isCompleted} />
+        <Checkbox completed={props.task.completed} />
         <b
-          className={`${
-            props.task.isCompleted && "line-through text-gray-400"
-          }`}
+          className={`${props.task.completed && "line-through text-gray-400"}`}
         >
           {props.task.name}
         </b>
       </div>
 
       <Popover className="relative flex">
-        <Popover.Button
+        <PopoverButton
           className={`${!hovered ? "hidden opacity-0" : "opacity-100"}
             focus:outline-none items-center`}
         >
           <Ellipsis />
-        </Popover.Button>
+        </PopoverButton>
         <Transition
           as={Fragment}
           enter="transition ease-out duration-200"
@@ -123,7 +126,7 @@ const Task: FC<TaskProps> = (props) => {
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 translate-y-1"
         >
-          <Popover.Panel
+          <PopoverPanel
             className="absolute -right-3 top-6 bg-primary flex flex-col
               border-white border rounded-[6px] text-sm"
           >
@@ -159,7 +162,7 @@ const Task: FC<TaskProps> = (props) => {
             >
               Delete
             </button>
-          </Popover.Panel>
+          </PopoverPanel>
         </Transition>
       </Popover>
 
