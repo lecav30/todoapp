@@ -12,3 +12,9 @@ export interface IGroupRequest {
   description: string;
   projectId: number;
 }
+
+export interface IGroupUpdateRequest {
+  id: number;
+  name?: string;
+  description?: string;
+}

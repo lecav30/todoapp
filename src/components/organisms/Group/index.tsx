@@ -2,6 +2,8 @@ import TodoDialog from "@components/atoms/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
 import Task from "@components/organisms/Task";
 import { IRootState, useAppDispatch, useAppSelector } from "@core/store";
+import { setAreYouSureDialog } from "@feature/common/common.thunk";
+import { updateGroupById } from "@feature/group/group.thunk";
 import { createTask, getTasksByGroupId } from "@feature/task/task.thunk";
 import {
   Popover,
@@ -10,7 +12,7 @@ import {
   Transition,
 } from "@headlessui/react";
 import useHover from "@hooks/useHover";
-import { IGroup, IGroupRequest } from "@models/Group";
+import { IGroup, IGroupRequest, IGroupUpdateRequest } from "@models/Group";
 import { ITask, ITaskRequest } from "@models/Task";
 import { Ellipsis, PlusIcon } from "lucide-react";
 import { FC, Fragment, useEffect, useState } from "react";
@@ -50,19 +52,20 @@ const Group: FC<GroupProps> = (props) => {
         <GenericForm
           setIsOpen={setShowMenu}
           onSubmit={(values) => {
-            /* dispatch(
-              editGroup({
-                group_id: props.group.id,
-                group_request: values as Record<string, unknown> &
-                  IGroupRequest,
+            dispatch(
+              updateGroupById({
+                projectId: props.group.projectId,
+                groupUpdateRequest: values as Record<string, unknown> &
+                  IGroupUpdateRequest,
               }),
-            ); */
+            );
           }}
           initialValues={
             {
+              id: props.group.id,
               name: props.group.name,
               description: props.group.description,
-            } as Record<string, unknown> & IGroupRequest
+            } as Record<string, unknown> & IGroupUpdateRequest
           }
           fields={[
             {
@@ -144,8 +147,16 @@ const Group: FC<GroupProps> = (props) => {
               <button
                 className="hover:bg-gray-500/50 w-full py-2 px-6"
                 onClick={() => {
-                  setOptionSelected("Delete");
-                  // dispatch(deleteGroup(props.group.id));
+                  dispatch(
+                    setAreYouSureDialog({
+                      open: true,
+                      message: "Are you sure you want to delete this group?",
+                      actionType: "DELETE_GROUP",
+                      groupId: props.group.id,
+                      projectId: props.group.projectId,
+                      taskId: null,
+                    }),
+                  );
                 }}
               >
                 Delete
@@ -213,7 +224,7 @@ const Group: FC<GroupProps> = (props) => {
               type: "date",
             },
           ]}
-          submitButtonText={"Create Task"}
+          submitButtonText="Create Task"
         />
       </TodoDialog>
     </div>

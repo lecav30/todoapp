@@ -7,8 +7,17 @@ const getGroupsByProjectId = (projectId: number) =>
 
 const getGroupById = (id: number) => requests.get(`/group/${id}`);
 
+const updateGroupById = (group: any) => {
+  const { id, ...rest } = group;
+  return requests.patch(`/group/${id}`, rest);
+};
+
+const deleteGroup = (id: number) => requests.delete(`/group/${id}`);
+
 export default {
   createGroup,
   getGroupsByProjectId,
   getGroupById,
+  updateGroupById,
+  deleteGroup,
 };

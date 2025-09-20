@@ -4,7 +4,6 @@ import GenericForm from "@components/molecules/GenericForm";
 import { useAppDispatch } from "@core/store";
 import { setAreYouSureDialog } from "@feature/common/common.thunk";
 import {
-  deleteTask,
   toggleCompletionTaskById,
   updateTaskById,
 } from "@feature/task/task.thunk";
