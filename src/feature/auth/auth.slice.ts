@@ -15,10 +15,10 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(login.fulfilled, (state, action: any) => {
+      .addCase(login.fulfilled, (state) => {
         state.loading = false;
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(login.rejected, (state) => {
         state.loading = false;
       })
       .addCase(login.pending, (state) => {
