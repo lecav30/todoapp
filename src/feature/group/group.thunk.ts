@@ -1,8 +1,10 @@
 import { resetAreYouSureDialog } from "@feature/common/common.thunk";
 import { IGroupRequest, IGroupUpdateRequest } from "@models/Group";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import groupServices from "@services/group.services";
 import { AxiosError } from "axios";
+
+export const resetGroups = createAction("resetGroups");
 
 export const createGroup = createAsyncThunk(
   "createGroup",
@@ -90,7 +92,9 @@ export const updateGroupById = createAsyncThunk(
     { rejectWithValue, dispatch },
   ) => {
     try {
-      const response = await groupServices.updateGroupById(payload.groupUpdateRequest);
+      const response = await groupServices.updateGroupById(
+        payload.groupUpdateRequest,
+      );
       dispatch(getGroupsByProjectId(payload.projectId));
       return response;
     } catch (error) {

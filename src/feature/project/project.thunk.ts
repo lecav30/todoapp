@@ -1,4 +1,6 @@
+import { IRootState } from "@core/store";
 import { resetAreYouSureDialog } from "@feature/common/common.thunk";
+import { resetGroups } from "@feature/group/group.thunk";
 import {
   IProject,
   IProjectRequest,
@@ -14,7 +16,7 @@ export const createProject = createAsyncThunk(
   "createProject",
   async (payload: IProjectRequest, { rejectWithValue, dispatch }) => {
     try {
-      const response = await projectServices.createProject(payload) as any;
+      const response = (await projectServices.createProject(payload)) as any;
       dispatch(getOwnProjects());
       return response.project;
     } catch (error) {
@@ -118,11 +120,14 @@ export const updateProjectById = createAsyncThunk(
 
 export const deleteProject = createAsyncThunk(
   "deleteProject",
-  async (projectId: number, { rejectWithValue, dispatch }) => {
+  async (projectId: number, { rejectWithValue, dispatch, getState }) => {
     try {
       const response = await projectServices.deleteProject(projectId);
       dispatch(getOwnProjects());
       dispatch(resetAreYouSureDialog());
+      const state = getState() as IRootState;
+      const currentProjectId = state.project.selectedProject?.id;
+      if (projectId === currentProjectId) dispatch(resetGroups());
       return response;
     } catch (error) {
       const err = error as AxiosError;

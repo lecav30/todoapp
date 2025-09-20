@@ -1,6 +1,6 @@
 import { IGroup } from "@models/Group";
 import { createSlice } from "@reduxjs/toolkit";
-import { createGroup, getGroupById, getGroupsByProjectId } from "./group.thunk";
+import { createGroup, getGroupById, getGroupsByProjectId, resetGroups } from "./group.thunk";
 
 export interface GroupState {
   groups: IGroup[];
@@ -19,6 +19,12 @@ export const groupSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(resetGroups, (state) => {
+      state.groups = [];
+      state.loading = false;
+      state.selectedGroup = null;
+    });
+
     builder
       .addCase(getGroupsByProjectId.fulfilled, (state, action: any) => {
         state.groups = action.payload;
