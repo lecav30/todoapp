@@ -5,6 +5,7 @@ import Login from "@views/Auth/Login";
 import ProtectedLayout from "./layouts/ProtectedLayout";
 import PublicLayout from "./layouts/PublicLayout";
 import { AuthProvider } from "@context/AuthContext";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (

@@ -51,6 +51,8 @@ const requests = {
     axios.put<T>(url, body, { withCredentials: true }).then(responseBody),
   patch: <T>(url: string, body: {}) =>
     axios.patch<T>(url, body, { withCredentials: true }).then(responseBody),
+  patchWithoutBody: <T>(url: string) =>
+    axios.patch<T>(url, { withCredentials: true }).then(responseBody),
   delete: <T>(url: string) =>
     axios.delete<T>(url, { withCredentials: true }).then(responseBody),
 };

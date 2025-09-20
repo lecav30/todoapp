@@ -1,6 +1,8 @@
 import Checkbox from "@components/atoms/Checkbox";
 import TodoDialog from "@components/molecules/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
+import { useAppDispatch } from "@core/store";
+import { toggleCompletionTaskById } from "@feature/task/task.thunk";
 import {
   Popover,
   PopoverButton,
@@ -11,18 +13,24 @@ import useHover from "@hooks/useHover";
 import { ITask, ITaskRequest } from "@models/Task";
 import { Ellipsis } from "lucide-react";
 import { FC, Fragment, useState } from "react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 interface TaskProps {
   task: ITask;
 }
 
 const Task: FC<TaskProps> = (props) => {
+  const dispatch = useAppDispatch();
+
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleTaskComplete = () => {
-    // dispatch(completeTask(props.task));
+  const handleToggleComplete = () => {
+    dispatch(
+      toggleCompletionTaskById({
+        taskId: props.task.id,
+        groupId: props.task.groupId,
+        currentStatus: props.task.completed,
+      }),
+    );
   };
 
   const [hovered, bind] = useHover();
@@ -30,10 +38,6 @@ const Task: FC<TaskProps> = (props) => {
   const options = ["Edit", "Delete", "About"];
 
   const [optionSelected, setOptionSelected] = useState(options[0]);
-
-  const notify = (message: string, completed: boolean) => {
-    completed ? toast.success(message) : toast.error(message);
-  };
 
   const defineDialogContent = (option: string) => {
     if (option === "Edit") {
@@ -94,13 +98,7 @@ const Task: FC<TaskProps> = (props) => {
     >
       <div
         className="flex items-center gap-3 cursor-pointer min-w-[80%]"
-        onClick={() => {
-          handleTaskComplete();
-          notify(
-            `Task ${props.task.completed ? "completed" : "uncompleted"}`,
-            props.task.completed,
-          );
-        }}
+        onClick={handleToggleComplete}
       >
         <Checkbox completed={props.task.completed} />
         <b

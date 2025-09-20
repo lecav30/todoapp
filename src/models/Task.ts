@@ -15,3 +15,12 @@ export interface ITaskRequest {
   description: string;
   deadline: string;
 }
+
+export interface ITaskUpdateRequest {
+  id: number;
+  groupId: number;
+  name?: string;
+  description?: string;
+  deadline?: string;
+  completed?: boolean;
+}

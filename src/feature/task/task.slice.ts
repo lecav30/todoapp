@@ -1,6 +1,11 @@
 import { ITask } from "@models/Task";
 import { createSlice } from "@reduxjs/toolkit";
-import { createTask, getTaskById, getTasksByGroupId } from "./task.thunk";
+import {
+  createTask,
+  getTaskById,
+  getTasksByGroupId,
+  toggleCompletionTaskById,
+} from "./task.thunk";
 
 export interface TaskState {
   tasksByGroupId: {
@@ -55,6 +60,21 @@ export const taskSlice = createSlice({
         state.loading = false;
       })
       .addCase(getTaskById.pending, (state) => {
+        state.loading = true;
+      });
+
+    builder
+      .addCase(toggleCompletionTaskById.fulfilled, (state, action: any) => {
+        state.loading = false;
+        state.toggleStatus = {
+          completed: action.payload.completed,
+          show: true,
+        };
+      })
+      .addCase(toggleCompletionTaskById.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(toggleCompletionTaskById.pending, (state) => {
         state.loading = true;
       });
   },
