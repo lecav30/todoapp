@@ -1,4 +1,4 @@
-import TodoDialog from "@components/molecules/Dialog";
+import TodoDialog from "@components/atoms/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
 import Task from "@components/organisms/Task";
 import { IRootState, useAppDispatch, useAppSelector } from "@core/store";
@@ -170,7 +170,7 @@ const Group: FC<GroupProps> = (props) => {
       <TodoDialog
         title={optionSelected}
         isOpen={showMenu}
-        setIsOpen={() => setShowMenu(false)}
+        onClose={() => setShowMenu(false)}
       >
         {defineDialogContent(optionSelected)}
       </TodoDialog>
@@ -178,7 +178,7 @@ const Group: FC<GroupProps> = (props) => {
       <TodoDialog
         title="New Task"
         isOpen={showAdd}
-        setIsOpen={() => setShowAdd(false)}
+        onClose={() => setShowAdd(false)}
       >
         <GenericForm
           setIsOpen={setShowAdd}

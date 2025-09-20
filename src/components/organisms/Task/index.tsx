@@ -1,8 +1,10 @@
 import Checkbox from "@components/atoms/Checkbox";
-import TodoDialog from "@components/molecules/Dialog";
+import TodoDialog from "@components/atoms/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
 import { useAppDispatch } from "@core/store";
+import { setAreYouSureDialog } from "@feature/common/common.thunk";
 import {
+  deleteTask,
   toggleCompletionTaskById,
   updateTaskById,
 } from "@feature/task/task.thunk";
@@ -108,7 +110,7 @@ const Task: FC<TaskProps> = (props) => {
       >
         <Checkbox completed={props.task.completed} />
         <b
-          className={`${props.task.completed && "line-through text-gray-400"}`}
+          className={`truncate ${props.task.completed && "line-through text-gray-400"}`}
         >
           {props.task.name}
         </b>
@@ -155,13 +157,16 @@ const Task: FC<TaskProps> = (props) => {
             <button
               className="hover:bg-gray-500/50 w-full py-2 px-6"
               onClick={() => {
-                setOptionSelected("Delete");
-                /* dispatch(
-                  deleteTask({
-                    group_id: props.task.group_id,
-                    task_id: props.task.id,
-                  })
-                ); */
+                dispatch(
+                  setAreYouSureDialog({
+                    open: true,
+                    message: "Are you sure you want to delete this task?",
+                    actionType: "DELETE_TASK",
+                    taskId: props.task.id,
+                    groupId: props.task.groupId,
+                    projectId: null,
+                  }),
+                );
               }}
             >
               Delete
@@ -173,7 +178,7 @@ const Task: FC<TaskProps> = (props) => {
       <TodoDialog
         title={optionSelected}
         isOpen={isOpen}
-        setIsOpen={() => setIsOpen(false)}
+        onClose={() => setIsOpen(false)}
       >
         {defineDialogContent(optionSelected)}
       </TodoDialog>

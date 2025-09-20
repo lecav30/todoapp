@@ -8,7 +8,7 @@ import {
   PopoverPanel,
   Transition,
 } from "@headlessui/react";
-import TodoDialog from "@components/molecules/Dialog";
+import TodoDialog from "@components/atoms/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
 import { useAppDispatch } from "@core/store";
 import { changeProject } from "@feature/project/project.thunk";
@@ -135,7 +135,7 @@ const Project: FC<IProjectProps> = (props) => {
       <TodoDialog
         title={optionSelected}
         isOpen={isOpen}
-        setIsOpen={() => {
+        onClose={() => {
           setIsOpen(false);
         }}
       >

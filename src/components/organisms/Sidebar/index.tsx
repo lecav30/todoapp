@@ -1,4 +1,4 @@
-import TodoDialog from "@components/molecules/Dialog";
+import TodoDialog from "@components/atoms/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
 import Project from "@components/organisms/Project";
 import { IProject, IProjectRequest } from "@models/Project";
@@ -57,7 +57,7 @@ const Sidebar = () => {
       <TodoDialog
         title="New Project"
         isOpen={isOpen}
-        setIsOpen={() => {
+        onClose={() => {
           setIsOpen(false);
         }}
       >
