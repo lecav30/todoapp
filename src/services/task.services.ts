@@ -15,10 +15,13 @@ const updateTaskById = (task: any) => {
 const toggleCompletitionTaskById = (id: number) =>
   requests.patchWithoutBody(`/task/${id}/toggleCompletion`);
 
+const deleteTask = (id: number) => requests.delete(`/task/${id}`);
+
 export default {
   createTask,
   getTasksByGroupId,
   getTaskById,
   updateTaskById,
   toggleCompletitionTaskById,
+  deleteTask,
 };

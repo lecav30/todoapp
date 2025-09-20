@@ -1,4 +1,4 @@
-import TodoDialog from "@components/molecules/Dialog";
+import TodoDialog from "@components/atoms/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
 import Group from "@components/organisms/Group";
 import { IRootState, useAppDispatch, useAppSelector } from "@core/store";
@@ -38,7 +38,7 @@ export const MainView = () => {
       <TodoDialog
         title="New Group"
         isOpen={isOpen}
-        setIsOpen={() => {
+        onClose={() => {
           setIsOpen(false);
         }}
       >

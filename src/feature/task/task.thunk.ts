@@ -1,3 +1,4 @@
+import { resetAreYouSureDialog } from "@feature/common/common.thunk";
 import { ITaskRequest, ITaskUpdateRequest } from "@models/Task";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import taskServices from "@services/task.services";
@@ -99,7 +100,9 @@ export const updateTaskById = createAsyncThunk(
     { rejectWithValue, dispatch },
   ) => {
     try {
-      const response = await taskServices.updateTaskById(payload.taskUpdateRequest);
+      const response = await taskServices.updateTaskById(
+        payload.taskUpdateRequest,
+      );
       dispatch(getTasksByGroupId(payload.groupId));
       return response;
     } catch (error) {
@@ -139,6 +142,39 @@ export const toggleCompletionTaskById = createAsyncThunk(
       if (!payload.currentStatus) {
         toast.success("Task completed successfully");
       }
+      return response;
+    } catch (error) {
+      const err = error as AxiosError;
+      /* if (err.status === 403) {
+        dispatch(
+          setAlertDialog({
+            open: true,
+            message: "Usuario o contraseña incorrectos",
+            type: "error",
+          }),
+        );
+      } */
+      return rejectWithValue({
+        status: err.response?.status,
+        message: err.response?.data,
+      });
+    }
+  },
+);
+
+export const deleteTask = createAsyncThunk(
+  "deleteTask",
+  async (
+    payload: {
+      taskId: number;
+      groupId: number;
+    },
+    { rejectWithValue, dispatch },
+  ) => {
+    try {
+      const response = await taskServices.deleteTask(payload.taskId);
+      dispatch(getTasksByGroupId(payload.groupId));
+      dispatch(resetAreYouSureDialog());
       return response;
     } catch (error) {
       const err = error as AxiosError;

@@ -2,6 +2,7 @@ import { ITask } from "@models/Task";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createTask,
+  deleteTask,
   getTaskById,
   getTasksByGroupId,
   toggleCompletionTaskById,
@@ -83,6 +84,17 @@ export const taskSlice = createSlice({
         state.loading = false;
       })
       .addCase(toggleCompletionTaskById.pending, (state) => {
+        state.loading = true;
+      });
+
+    builder
+      .addCase(deleteTask.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(deleteTask.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(deleteTask.pending, (state) => {
         state.loading = true;
       });
   },
