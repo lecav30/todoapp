@@ -2,7 +2,10 @@ import Checkbox from "@components/atoms/Checkbox";
 import TodoDialog from "@components/molecules/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
 import { useAppDispatch } from "@core/store";
-import { toggleCompletionTaskById } from "@feature/task/task.thunk";
+import {
+  toggleCompletionTaskById,
+  updateTaskById,
+} from "@feature/task/task.thunk";
 import {
   Popover,
   PopoverButton,
@@ -10,7 +13,8 @@ import {
   Transition,
 } from "@headlessui/react";
 import useHover from "@hooks/useHover";
-import { ITask, ITaskRequest } from "@models/Task";
+import { ITask, ITaskUpdateRequest } from "@models/Task";
+import dayjs from "dayjs";
 import { Ellipsis } from "lucide-react";
 import { FC, Fragment, useState } from "react";
 
@@ -45,19 +49,21 @@ const Task: FC<TaskProps> = (props) => {
         <GenericForm
           setIsOpen={setIsOpen}
           onSubmit={(values) => {
-            /* dispatch(
-              editTask({
-                task_id: props.task.id,
-                task_request: values as Record<string, unknown> & ITaskRequest,
-              })
-            ); */
+            dispatch(
+              updateTaskById({
+                groupId: props.task.groupId,
+                taskUpdateRequest: values as Record<string, unknown> &
+                  ITaskUpdateRequest,
+              }),
+            );
           }}
           initialValues={
             {
+              id: props.task.id,
               name: props.task.name,
               description: props.task.description,
               deadline: props.task.deadline,
-            } as Record<string, unknown> & ITaskRequest
+            } as Record<string, unknown> & ITaskUpdateRequest
           }
           fields={[
             {
@@ -85,7 +91,7 @@ const Task: FC<TaskProps> = (props) => {
       <div className="mt-10 text-center flex flex-col gap-4">
         <b>{props.task.name}</b>
         <i>{props.task.description}</i>
-        <p>{props.task.deadline}</p>
+        <p>{dayjs(props.task.deadline).format("DD/MM/YYYY")}</p>
       </div>
     );
   };

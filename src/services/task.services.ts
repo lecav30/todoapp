@@ -9,7 +9,7 @@ const getTaskById = (id: number) => requests.get(`/task/${id}`);
 
 const updateTaskById = (task: any) => {
   const { id, ...rest } = task;
-  return requests.put(`/task/${id}`, rest);
+  return requests.patch(`/task/${id}`, rest);
 };
 
 const toggleCompletitionTaskById = (id: number) =>

@@ -5,6 +5,7 @@ import {
   getTaskById,
   getTasksByGroupId,
   toggleCompletionTaskById,
+  updateTaskById,
 } from "./task.thunk";
 
 export interface TaskState {
@@ -64,12 +65,19 @@ export const taskSlice = createSlice({
       });
 
     builder
-      .addCase(toggleCompletionTaskById.fulfilled, (state, action: any) => {
+      .addCase(updateTaskById.fulfilled, (state, action: any) => {
         state.loading = false;
-        state.toggleStatus = {
-          completed: action.payload.completed,
-          show: true,
-        };
+      })
+      .addCase(updateTaskById.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateTaskById.pending, (state) => {
+        state.loading = true;
+      });
+
+    builder
+      .addCase(toggleCompletionTaskById.fulfilled, (state) => {
+        state.loading = false;
       })
       .addCase(toggleCompletionTaskById.rejected, (state) => {
         state.loading = false;

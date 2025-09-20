@@ -91,11 +91,16 @@ export const getTaskById = createAsyncThunk(
 
 export const updateTaskById = createAsyncThunk(
   "updateTaskById",
-  async (payload: ITaskUpdateRequest, { rejectWithValue, dispatch }) => {
+  async (
+    payload: {
+      groupId: number;
+      taskUpdateRequest: ITaskUpdateRequest;
+    },
+    { rejectWithValue, dispatch },
+  ) => {
     try {
-      const { groupId, ...taskInformation } = payload;
-      const response = await taskServices.updateTaskById(taskInformation);
-      dispatch(getTasksByGroupId(groupId));
+      const response = await taskServices.updateTaskById(payload.taskUpdateRequest);
+      dispatch(getTasksByGroupId(payload.groupId));
       return response;
     } catch (error) {
       const err = error as AxiosError;

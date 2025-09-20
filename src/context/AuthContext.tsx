@@ -39,6 +39,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(getOwnProjects());
+    } else {
+      navigate("/login");
     }
   }, [isAuthenticated]);
 

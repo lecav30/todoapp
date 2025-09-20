@@ -19,20 +19,21 @@ export const MainView = () => {
 
   return (
     <div className="h-[calc(100%-60px)] flex flex-col justify-center items-center">
-      <div
-        className="grid 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1
-        gap-10 max-h-[80%] md:max-w-[80%] max-w-[90%] w-full h-full place-items-center
-        place-content-center overflow-auto"
-      >
-        {groups.map((group: IGroup) => (
-          <Group key={group.id} group={group} />
-        ))}
-        <button
-          onClick={() => setIsOpen(true)}
-          className="self-start mt-3 cursor-pointer"
+      <div className="max-h-[80%] md:max-w-[80%] max-w-[90%] w-full h-full overflow-auto">
+        <div
+          className="grid 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1
+          gap-10 place-content-center h-full"
         >
-          <PlusIcon />
-        </button>
+          {groups.map((group: IGroup) => (
+            <Group key={group.id} group={group} />
+          ))}
+          <button
+            onClick={() => setIsOpen(true)}
+            className="mt-3 cursor-pointer w-fit mx-auto"
+          >
+            <PlusIcon />
+          </button>
+        </div>
       </div>
       <TodoDialog
         title="New Group"

@@ -18,7 +18,6 @@ export interface ITaskRequest {
 
 export interface ITaskUpdateRequest {
   id: number;
-  groupId: number;
   name?: string;
   description?: string;
   deadline?: string;
