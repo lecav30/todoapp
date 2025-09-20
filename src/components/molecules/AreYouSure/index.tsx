@@ -4,6 +4,7 @@ import TodoButton from "@components/atoms/TodoButton";
 import { useAppDispatch, useAppSelector } from "@core/store";
 import { resetAreYouSureDialog } from "@feature/common/common.thunk";
 import { deleteGroup } from "@feature/group/group.thunk";
+import { deleteProject } from "@feature/project/project.thunk";
 import { deleteTask } from "@feature/task/task.thunk";
 
 const AreYouSure = () => {
@@ -17,6 +18,9 @@ const AreYouSure = () => {
 
   const confirmAction = () => {
     switch (areYouSureDialog.actionType) {
+      case "DELETE_PROJECT":
+        dispatch(deleteProject(areYouSureDialog.projectId!));
+        break;
       case "DELETE_GROUP":
         dispatch(
           deleteGroup({

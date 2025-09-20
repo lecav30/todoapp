@@ -1,4 +1,8 @@
-import { IProject, IProjectRequest } from "@models/Project";
+import {
+  IProject,
+  IProjectRequest,
+  IProjectUpdateRequest,
+} from "@models/Project";
 import { FC, Fragment, useState } from "react";
 import { Ellipsis } from "lucide-react";
 import useHover from "@hooks/useHover";
@@ -11,7 +15,11 @@ import {
 import TodoDialog from "@components/atoms/Dialog";
 import GenericForm from "@components/molecules/GenericForm";
 import { useAppDispatch } from "@core/store";
-import { changeProject } from "@feature/project/project.thunk";
+import {
+  changeProject,
+  updateProjectById,
+} from "@feature/project/project.thunk";
+import { setAreYouSureDialog } from "@feature/common/common.thunk";
 
 interface IProjectProps {
   project: IProject;
@@ -33,15 +41,18 @@ const Project: FC<IProjectProps> = (props) => {
         <GenericForm
           setIsOpen={setIsOpen}
           onSubmit={(values) => {
-            /* dispatch(
-              editProject(values as Record<string, unknown> & IProjectRequest),
-            ); */
+            dispatch(
+              updateProjectById(
+                values as Record<string, unknown> & IProjectUpdateRequest,
+              ),
+            );
           }}
           initialValues={
             {
+              id: props.project.id,
               name: props.project.name,
               description: props.project.description,
-            } as Record<string, unknown> & IProjectRequest
+            } as Record<string, unknown> & IProjectUpdateRequest
           }
           fields={[
             {
@@ -123,8 +134,16 @@ const Project: FC<IProjectProps> = (props) => {
             <button
               className="hover:bg-gray-500/50 w-full py-2 px-6"
               onClick={() => {
-                setOptionSelected("Delete");
-                // dispatch(deleteProject(props.project.id));
+                dispatch(
+                  setAreYouSureDialog({
+                    open: true,
+                    message: "Are you sure you want to delete this project?",
+                    actionType: "DELETE_PROJECT",
+                    projectId: props.project.id,
+                    groupId: null,
+                    taskId: null,
+                  }),
+                );
               }}
             >
               Delete

@@ -10,3 +10,9 @@ export interface IProjectRequest {
   name: string;
   description: string;
 }
+
+export interface IProjectUpdateRequest {
+  id: number;
+  name?: string;
+  description?: string;
+}

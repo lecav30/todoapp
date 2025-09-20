@@ -3,8 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   changeProject,
   createProject,
+  deleteProject,
   getOwnProjects,
   getProjectById,
+  updateProjectById,
 } from "./project.thunk";
 
 export interface ProjectState {
@@ -42,7 +44,7 @@ export const projectSlice = createSlice({
       });
 
     builder
-      .addCase(createProject.fulfilled, (state, action: any) => {
+      .addCase(createProject.fulfilled, (state, action) => {
         state.selectedProject = action.payload;
         state.loading = false;
       })
@@ -64,6 +66,28 @@ export const projectSlice = createSlice({
         state.loading = false;
       })
       .addCase(getProjectById.pending, (state) => {
+        state.loading = true;
+      });
+
+    builder
+      .addCase(updateProjectById.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateProjectById.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateProjectById.pending, (state) => {
+        state.loading = true;
+      });
+
+    builder
+      .addCase(deleteProject.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(deleteProject.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(deleteProject.pending, (state) => {
         state.loading = true;
       });
   },
