@@ -8,13 +8,20 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "@feature/auth/auth.thunk";
+import { login, register } from "@feature/auth/auth.thunk";
 import { getOwnProjects } from "@feature/project/project.thunk";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
   setIsAuthenticated: (value: boolean) => void;
   handleLogin: ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => void;
+  handleRegister: ({
     email,
     password,
   }: {
@@ -39,8 +46,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(getOwnProjects());
-    } else {
-      navigate("/login");
     }
   }, [isAuthenticated]);
 
@@ -59,16 +64,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }) => {
     dispatch(login({ email, password })).then((e) => {
       if (e.meta.requestStatus === "fulfilled") {
-        console.log("redirect success");
         setIsAuthenticated(true);
         navigate("/");
       }
     });
   };
 
+  const handleRegister = ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    dispatch(register({ email, password })).then((e) => {
+      if (e.meta.requestStatus === "fulfilled") {
+        handleLogin({ email, password });
+      }
+    });
+  };
+
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, setIsAuthenticated, handleLogin, handleLogout }}
+      value={{
+        isAuthenticated,
+        setIsAuthenticated,
+        handleLogin,
+        handleRegister,
+        handleLogout,
+      }}
     >
       {children}
     </AuthContext.Provider>

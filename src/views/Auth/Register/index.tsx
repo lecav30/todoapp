@@ -6,14 +6,19 @@ import { useAuth } from "@context/AuthContext";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate();
-  const { handleLogin, isAuthenticated } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
-    {},
-  );
+  const { handleRegister, isAuthenticated } = useAuth();
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState<{
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+  }>({});
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -26,18 +31,18 @@ const Login = () => {
     password: Yup.string()
       .min(6, "Minimum 6 characters")
       .required("Password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password")], "Passwords do not match")
+      .required("Confirm password is required"),
   });
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      await validationSchema.validate(
-        { email, password },
-        { abortEarly: false },
-      );
+      await validationSchema.validate(state, { abortEarly: false });
       setErrors({});
-      handleLogin({ email, password });
+      handleRegister({ email: state.email, password: state.password });
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const newErrors: typeof errors = {};
@@ -57,7 +62,7 @@ const Login = () => {
       onSubmit={onSubmit}
       className="flex flex-col items-center justify-center gap-4 p-4 h-screen"
     >
-      <b className="text-3xl mb-5">Login</b>
+      <b className="text-3xl mb-5">Register</b>
       <div
         className="flex flex-col items-center gap-4 border-2 border-gray-400 rounded-lg
         p-8"
@@ -65,9 +70,13 @@ const Login = () => {
         <TodoInput
           type="text"
           placeholder="Email"
-          value={email}
+          value={state.email}
           onChange={(e) => {
-            setEmail(e.target.value);
+            setState((prev) => {
+              const newState = { ...prev };
+              newState.email = e.target.value;
+              return newState;
+            });
             setErrors((prev) => {
               const newErrors = { ...prev };
               delete newErrors.email;
@@ -81,9 +90,13 @@ const Login = () => {
         <TodoInput
           type="password"
           placeholder="Password"
-          value={password}
+          value={state.password}
           onChange={(e) => {
-            setPassword(e.target.value);
+            setState((prev) => {
+              const newState = { ...prev };
+              newState.password = e.target.value;
+              return newState;
+            });
             setErrors((prev) => {
               const newErrors = { ...prev };
               delete newErrors.password;
@@ -94,10 +107,30 @@ const Login = () => {
         {errors.password && (
           <span className="text-red-500 text-sm">{errors.password}</span>
         )}
+        <TodoInput
+          type="password"
+          placeholder="Confirm Password"
+          value={state.confirmPassword}
+          onChange={(e) => {
+            setState((prev) => {
+              const newState = { ...prev };
+              newState.confirmPassword = e.target.value;
+              return newState;
+            });
+            setErrors((prev) => {
+              const newErrors = { ...prev };
+              delete newErrors.confirmPassword;
+              return newErrors;
+            });
+          }}
+        />
+        {errors.confirmPassword && (
+          <span className="text-red-500 text-sm">{errors.confirmPassword}</span>
+        )}
         <p className="text-sm text-gray-200">
-          Don't have an account?{" "}
-          <Link to="/register" className="underline">
-            Register
+          Do you already have an account?{" "}
+          <Link to="/login" className="underline">
+            Login
           </Link>
         </p>
         <TodoButton
@@ -105,11 +138,11 @@ const Login = () => {
           type="submit"
           disabled={haveErrors}
         >
-          Login
+          Register
         </TodoButton>
       </div>
     </form>
   );
 };
 
-export default Login;
+export default Register;
