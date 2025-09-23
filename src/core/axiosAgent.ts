@@ -1,3 +1,4 @@
+import { logoutFromAnywhere } from "@context/AuthContext";
 import { getLocalToken } from "@utils/storageUtil";
 import axios, { AxiosResponse } from "axios";
 
@@ -13,13 +14,15 @@ axios.interceptors.response.use(
   (error) => {
     if (error.response) {
       const { status } = error.response;
+      const token = getLocalToken();
       switch (status) {
         case 401:
           console.warn("No autorizado.");
+          if (token) logoutFromAnywhere();
           break;
         case 403:
           console.error("Acceso denegado.");
-          localStorage.clear();
+          if (token) logoutFromAnywhere();
           break;
         case 404:
           // console.error("No encontrado.");

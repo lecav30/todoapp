@@ -33,6 +33,8 @@ interface AuthContextProps {
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
+let globalLogout: (() => void) | null = null;
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -50,10 +52,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [isAuthenticated]);
 
   const handleLogout = () => {
+    console.log("logout");
     removeLocalToken();
     setIsAuthenticated(false);
     navigate("/login");
   };
+
+  globalLogout = handleLogout;
 
   const handleLogin = ({
     email,
@@ -105,4 +110,8 @@ export const useAuth = () => {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
+};
+
+export const logoutFromAnywhere = () => {
+  if (globalLogout) globalLogout();
 };
