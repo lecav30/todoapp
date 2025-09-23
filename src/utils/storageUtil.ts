@@ -1,5 +1,3 @@
-"use-client";
-
 const token =
   import.meta.env.VITE_PUBLIC_ENV === "production"
     ? "token"

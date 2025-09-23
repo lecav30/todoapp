@@ -66,7 +66,7 @@ export const taskSlice = createSlice({
       });
 
     builder
-      .addCase(updateTaskById.fulfilled, (state, action: any) => {
+      .addCase(updateTaskById.fulfilled, (state) => {
         state.loading = false;
       })
       .addCase(updateTaskById.rejected, (state) => {

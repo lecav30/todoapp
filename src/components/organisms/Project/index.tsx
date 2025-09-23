@@ -1,8 +1,4 @@
-import {
-  IProject,
-  IProjectRequest,
-  IProjectUpdateRequest,
-} from "@models/Project";
+import { IProject, IProjectUpdateRequest } from "@models/Project";
 import { FC, Fragment, useState } from "react";
 import { Ellipsis } from "lucide-react";
 import useHover from "@hooks/useHover";

@@ -12,7 +12,7 @@ import {
   Transition,
 } from "@headlessui/react";
 import useHover from "@hooks/useHover";
-import { IGroup, IGroupRequest, IGroupUpdateRequest } from "@models/Group";
+import { IGroup, IGroupUpdateRequest } from "@models/Group";
 import { ITask, ITaskRequest } from "@models/Task";
 import { Ellipsis, PlusIcon } from "lucide-react";
 import { FC, Fragment, useEffect, useState } from "react";
