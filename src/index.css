@@ -1,9 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 body {
   background-color: #313859;
   color: #f1f1f1;
   font-family: "Open Sans", sans-serif;
+}
+
+@theme {
+  --color-primary: #313859;
 }

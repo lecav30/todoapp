@@ -1,39 +1,29 @@
-import Navbar from "@components/Navbar";
-import Sidebar from "@components/Sidebar";
-import { RootState } from "@redux/store";
-import MainView from "@views/MainView";
-import { useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import Home from "@views/App/Home";
+import Login from "@views/Auth/Login";
+import Register from "@views/Auth/Register";
+import ProtectedLayout from "./layouts/ProtectedLayout";
+import PublicLayout from "./layouts/PublicLayout";
+import { AuthProvider } from "@context/AuthContext";
+import { ModalProvider } from "@context/ModalContext";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const activeSidebar = useSelector(
-    (state: RootState) => state.sidebar.activeSidebar,
-  );
-
   return (
-    <>
-      <div className="h-screen">
-        <Sidebar />
-        <div className={`${activeSidebar && "sm:ml-80 hidden sm:block"} h-full`}>
-          <Navbar />
-          <MainView />
-        </div>
-      </div>
-
-      <ToastContainer
-        position="bottom-left"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
-    </>
+    <AuthProvider>
+      <ModalProvider>
+        <Routes>
+          <Route element={<ProtectedLayout />}>
+            <Route path="/" element={<Home />} />
+          </Route>
+          <Route element={<PublicLayout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
+        </Routes>
+      </ModalProvider>
+    </AuthProvider>
   );
 }
 

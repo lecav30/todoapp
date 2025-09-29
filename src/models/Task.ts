@@ -1,15 +1,25 @@
 export interface ITask {
-    id: number;
-    group_id: number;
-    name: string;
-    description: string;
-    isCompleted: boolean;
-    deadline: string;
+  id: number;
+  groupId: number;
+  name: string;
+  description: string;
+  completed: boolean;
+  deadline: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ITaskRequest {
-    group_id: number;
-    name: string;
-    description: string;
-    deadline: string;
+  groupId: number;
+  name: string;
+  description: string;
+  deadline: string;
+}
+
+export interface ITaskUpdateRequest {
+  id: number;
+  name?: string;
+  description?: string;
+  deadline?: string;
+  completed?: boolean;
 }

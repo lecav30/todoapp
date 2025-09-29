@@ -1,13 +1,20 @@
-import { ITask } from './Task';
-
 export interface IGroup {
-    id: number;
-    name: string;
-    description: string;
-    tasks: ITask[];
+  id: number;
+  name: string;
+  description: string;
+  projectId: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IGroupRequest {
-    name: string;
-    description: string;
+  name: string;
+  description: string;
+  projectId: number;
+}
+
+export interface IGroupUpdateRequest {
+  id: number;
+  name?: string;
+  description?: string;
 }
